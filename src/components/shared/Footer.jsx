@@ -11,7 +11,7 @@ import { Button, Input } from "@heroui/react";
 
 const Footer = () => {
     return (
-        <footer className="text-slate-700">
+        <footer className="bg-white dark:bg-slate-950">
             <div className="container mx-auto px-4 py-10">
 
                 <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
@@ -36,7 +36,7 @@ const Footer = () => {
 
                                 </h2>
 
-                                <p className="text-xs text-slate-500">
+                                <p className="text-xs bg-white dark:bg-slate-950">
                                     Discover • Read • Share
                                 </p>
 
@@ -44,7 +44,7 @@ const Footer = () => {
 
                         </div>
 
-                        <p className="text-sm leading-7 text-slate-500">
+                        <p className="text-sm leading-7 bg-white dark:bg-slate-950">
                             Fable is a modern ebook sharing platform where
                             readers discover original ebooks, writers publish
                             their work, and stories connect people around the
@@ -108,7 +108,7 @@ const Footer = () => {
 
                             </div>
 
-                            <p className="text-sm leading-6 text-slate-500">
+                            <p className="text-sm leading-6 bg-white dark:bg-slate-950">
                                 Have questions or feedback?
                                 <br />
                                 We&apos;d love to hear from you.
@@ -124,7 +124,7 @@ const Footer = () => {
                             Stay Updated
                         </h3>
 
-                        <p className="mb-4 text-sm text-slate-500">
+                        <p className="mb-4 text-sm bg-white dark:bg-slate-950">
                             Subscribe to receive new ebook releases, featured
                             writers, and platform updates.
                         </p>
@@ -179,13 +179,13 @@ const Footer = () => {
                 </div>
 
 
-                <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-6 md:flex-row">
+                <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-slate-200 dark:border-slate-800 pt-6 md:flex-row">
 
-                    <p className="text-center text-sm text-slate-500 md:text-left">
+                    <p className="text-center text-sm bg-white dark:bg-slate-950 md:text-left">
                         © {new Date().getFullYear()} Fable. All rights reserved.
                     </p>
 
-                    <div className="flex gap-6 text-sm text-slate-500">
+                    <div className="flex gap-6 text-sm bg-white dark:bg-slate-950">
 
                         <Link
                             href="/about"
