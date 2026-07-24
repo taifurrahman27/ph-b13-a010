@@ -25,6 +25,8 @@ const RegisterForm = () => {
         const password = formData.get("password");
         const confirmPassword = formData.get("confirmPassword");
         const role = formData.get("role");
+        const image = formData.get("image");
+
 
         if (password !== confirmPassword) {
             toast.error("Passwords do not match");
@@ -38,6 +40,7 @@ const RegisterForm = () => {
                 name,
                 email,
                 password,
+                image,
                 role,
             });
 
@@ -121,6 +124,19 @@ const RegisterForm = () => {
                         type="email"
                         required
                         placeholder="you@example.com"
+                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
+                    />
+                </div>
+
+                <div>
+                    <label className="mb-2 block text-sm font-semibold">
+                        Photo URL
+                    </label>
+
+                    <input
+                        name="image"
+                        type="url"
+                        placeholder="https://example.com/photo.jpg"
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
                     />
                 </div>

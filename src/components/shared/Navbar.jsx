@@ -18,15 +18,32 @@ import {
 
 import MyNavLink from "./MyNavLink";
 import ThemeToggle from "./ThemeToggle";
+import { authClient } from "@/lib/auth-client";
 
 const Navbar = () => {
-
+    const [mobileOpen, setMobileOpen] = useState(false);
     const router = useRouter();
 
-    const user = null;
+    const { data: session, isPending } = authClient.useSession();
+    if (isPending) {
+        return null;
+    }
 
+    const user = session?.user;
 
-    const [mobileOpen, setMobileOpen] = useState(false);
+    const handleLogout = async () => {
+        const { error } = await authClient.signOut();
+
+        if (error) {
+            toast.error(error.message);
+            return;
+        }
+
+        toast.success("Logged out successfully");
+
+        router.push("/");
+        router.refresh();
+    };
 
     const publicNavItems = [
         {
@@ -161,6 +178,7 @@ const Navbar = () => {
                                 </button>
 
                                 <button
+                                    onClick={handleLogout}
                                     className="flex w-full items-center gap-3 px-4 py-2 font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-900"
                                 >
                                     <LogOut size={18} />
@@ -253,6 +271,7 @@ const Navbar = () => {
                                         </button>
 
                                         <button
+                                            onClick={handleLogout}
                                             className="flex w-full items-center gap-2 px-4 py-2 font-bold text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900"
                                         >
                                             <LogOut size={18} />
