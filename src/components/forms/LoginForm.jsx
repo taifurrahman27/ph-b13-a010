@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { FiLoader } from "react-icons/fi";
+
 import { authClient } from "@/lib/auth-client";
 
-
-const RegisterForm = () => {
+const LoginForm = () => {
     const router = useRouter();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -20,25 +21,15 @@ const RegisterForm = () => {
 
         const formData = new FormData(e.currentTarget);
 
-        const name = formData.get("name");
         const email = formData.get("email");
         const password = formData.get("password");
-        const confirmPassword = formData.get("confirmPassword");
-        const role = formData.get("role");
-
-        if (password !== confirmPassword) {
-            toast.error("Passwords do not match");
-            return;
-        }
 
         setIsLoading(true);
 
         try {
-            const { data, error } = await authClient.signUp.email({
-                name,
+            const { error } = await authClient.signIn.email({
                 email,
                 password,
-                role,
             });
 
             if (error) {
@@ -46,12 +37,7 @@ const RegisterForm = () => {
                 return;
             }
 
-            console.log({
-                user: data?.user,
-                role,
-            });
-
-            toast.success("Account created successfully!");
+            toast.success("Login successful!");
 
             router.push("/");
             router.refresh();
@@ -63,7 +49,7 @@ const RegisterForm = () => {
         }
     };
 
-    const handleGoogleSignUp = async () => {
+    const handleGoogleLogin = async () => {
         setGoogleLoading(true);
 
         try {
@@ -72,7 +58,8 @@ const RegisterForm = () => {
                 callbackURL: "/",
             });
         } catch (error) {
-            toast.error("Google sign up failed");
+            console.error(error);
+            toast.error("Google login failed");
             setGoogleLoading(false);
         }
     };
@@ -83,11 +70,11 @@ const RegisterForm = () => {
             <div className="mb-8 text-center">
 
                 <h2 className="text-3xl font-black text-slate-900 dark:text-white">
-                    Create Your Account
+                    Welcome Back
                 </h2>
 
                 <p className="mt-2 text-slate-500 dark:text-slate-400">
-                    Join Fable and discover amazing ebooks.
+                    Login to continue reading your favorite ebooks.
                 </p>
 
             </div>
@@ -98,20 +85,7 @@ const RegisterForm = () => {
             >
 
                 <div>
-                    <label className="mb-2 block text-sm font-semibold">
-                        Full Name
-                    </label>
 
-                    <input
-                        name="name"
-                        type="text"
-                        required
-                        placeholder="John Doe"
-                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
-                    />
-                </div>
-
-                <div>
                     <label className="mb-2 block text-sm font-semibold">
                         Email Address
                     </label>
@@ -123,9 +97,11 @@ const RegisterForm = () => {
                         placeholder="you@example.com"
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
                     />
+
                 </div>
 
                 <div>
+
                     <label className="mb-2 block text-sm font-semibold">
                         Password
                     </label>
@@ -134,45 +110,21 @@ const RegisterForm = () => {
                         name="password"
                         type="password"
                         required
-                        minLength={6}
                         placeholder="••••••••"
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
                     />
+
                 </div>
 
-                <div>
-                    <label className="mb-2 block text-sm font-semibold">
-                        Confirm Password
-                    </label>
+                <div className="flex justify-end">
 
-                    <input
-                        name="confirmPassword"
-                        type="password"
-                        required
-                        minLength={6}
-                        placeholder="••••••••"
-                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
-                    />
-                </div>
-
-                <div>
-                    <label className="mb-2 block text-sm font-semibold">
-                        Select Your Role
-                    </label>
-
-                    <select
-                        name="role"
-                        defaultValue="reader"
-                        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
+                    <Link
+                        href="/forgot-password"
+                        className="text-sm font-medium text-violet-600 hover:underline"
                     >
-                        <option value="reader">
-                            Reader
-                        </option>
+                        Forgot Password?
+                    </Link>
 
-                        <option value="writer">
-                            Writer
-                        </option>
-                    </select>
                 </div>
 
                 <button
@@ -183,10 +135,10 @@ const RegisterForm = () => {
                     {isLoading ? (
                         <>
                             <FiLoader className="animate-spin" />
-                            Creating Account...
+                            Logging in...
                         </>
                     ) : (
-                        "Create Account"
+                        "Login"
                     )}
                 </button>
 
@@ -205,7 +157,7 @@ const RegisterForm = () => {
             </div>
 
             <button
-                onClick={handleGoogleSignUp}
+                onClick={handleGoogleLogin}
                 disabled={googleLoading}
                 className="flex w-full items-center justify-center gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-70 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:hover:bg-slate-800"
             >
@@ -223,12 +175,12 @@ const RegisterForm = () => {
             </button>
 
             <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
-                Already have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link
-                    href="/login"
+                    href="/register"
                     className="font-semibold text-violet-600 hover:underline"
                 >
-                    Login
+                    Register
                 </Link>
             </p>
 
@@ -236,4 +188,4 @@ const RegisterForm = () => {
     );
 };
 
-export default RegisterForm;
+export default LoginForm;
