@@ -20,7 +20,7 @@ const Footer = () => {
 
                         <div className="flex items-center gap-3 mb-4">
 
-                            <div className="flex h-14 w-14 items-center justify-center rounded-none bg-violet-100">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-none bg-violet-100 dark:bg-violet-900">
 
                                 <HiBookOpen className="text-4xl text-violet-500" />
 

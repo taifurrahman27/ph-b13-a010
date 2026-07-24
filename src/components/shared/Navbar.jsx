@@ -174,6 +174,8 @@ const Navbar = () => {
 
                     </div>
 
+                    <div className="flex lg:hidden px-4 py-2"><ThemeToggle /></div>
+
                     <button
                         onClick={() => setMobileOpen(!mobileOpen)}
                         className="rounded-lg p-2 transition hover:bg-slate-100 dark:hover:bg-slate-700 lg:hidden"
@@ -192,7 +194,6 @@ const Navbar = () => {
                         <div className="absolute top-full left-0 w-full border-t lg:hidden">
 
                             <ul className="space-y-4 left-0 w-full bg-white dark:bg-slate-950 p-2 shadow-lg">
-                                <div className="px-4 py-2"><ThemeToggle /></div>
 
                                 {navItems.map((item) => (
                                     <li
