@@ -23,11 +23,8 @@ const Navbar = () => {
 
     const router = useRouter();
 
-    const user = {
-        name: "John Doe",
-        email: "john.doe@example.com",
-        image: "/path/to/image.jpg"
-    };
+    const user = null;
+
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
