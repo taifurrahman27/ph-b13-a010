@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 const WriterCard = ({ writer }) => {
@@ -7,7 +6,7 @@ const WriterCard = ({ writer }) => {
 
             <div className="flex flex-col items-center p-6">
 
-                {/* writer photo */}
+                {/* writer photo will be displayed here */}
 
                 <h2 className="mt-5 text-xl font-bold">
                     {writer.name}
