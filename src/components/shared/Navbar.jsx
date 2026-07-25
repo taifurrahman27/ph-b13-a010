@@ -66,7 +66,7 @@ const Navbar = () => {
             text: "Home",
         },
         {
-            path: "/browse",
+            path: "/ebooks",
             text: "Browse Ebooks",
         },
         {
@@ -263,6 +263,7 @@ const Navbar = () => {
                                     <div className="space-y-3">
                                         <button
                                             onClick={() => {
+                                                setMobileOpen(false);
                                                 router.push("/profile");
                                             }}
                                             className="bg-white dark:bg-slate-950 font-bold px-4 py-2 flex w-full items-center hover:bg-slate-150 dark:hover:bg-slate-600"
