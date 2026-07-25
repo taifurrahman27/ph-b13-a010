@@ -55,7 +55,7 @@ const Navbar = () => {
             text: "Browse Ebooks",
         },
         {
-            path: "/writer",
+            path: "/writers",
             text: "Browse Writers",
         },
     ];
