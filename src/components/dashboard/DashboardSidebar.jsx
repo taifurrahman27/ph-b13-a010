@@ -14,6 +14,7 @@ import {
     HiOutlineUsers,
     HiOutlineCog6Tooth,
     HiOutlineArrowLeft,
+    HiOutlineChartBar,
     HiXMark,
 } from "react-icons/hi2";
 
@@ -58,14 +59,30 @@ const sidebarMenus = {
             icon: HiOutlineBookOpen,
         },
         {
+            title: "Manage Ebooks",
+            href: "/dashboard/writer/manage-ebooks",
+            icon: HiOutlineBookOpen,
+        },
+
+        {
             title: "Add Ebook",
             href: "/dashboard/writer/add-ebook",
             icon: HiOutlineDocumentPlus,
         },
         {
+            title: "Bookmarks",
+            href: "/dashboard/writer/bookmarks",
+            icon: HiOutlineBookmark,
+        },
+        {
             title: "Sales History",
             href: "/dashboard/writer/sales",
             icon: HiOutlineShoppingBag,
+        },
+        {
+            title: "Analytics",
+            href: "/dashboard/writer/analytics",
+            icon: HiOutlineChartBar,
         },
         {
             title: "Profile",
@@ -174,8 +191,8 @@ export default function DashboardSidebar({
                                 href={item.href}
                                 onClick={() => setIsOpen(false)}
                                 className={`flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-200 ${active
-                                        ? "bg-violet-600 text-white shadow-md"
-                                        : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                                    ? "bg-violet-600 text-white shadow-md"
+                                    : "text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
                                     }`}
                             >
                                 <Icon className="text-xl" />
