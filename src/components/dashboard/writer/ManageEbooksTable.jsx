@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import {
@@ -79,7 +80,6 @@ export default function ManageEbooksTable({ ebooks }) {
 
             toast.success(data.message);
 
-            // Refresh the Server Component
             router.refresh();
 
         } catch (error) {
@@ -162,11 +162,15 @@ export default function ManageEbooksTable({ ebooks }) {
                                     >
 
                                         <td className="px-6 py-4">
-                                            {/* <img
-                                                src={ebook.coverImage}
+
+                                            <Image
+                                                // src={ebook.coverImage || "/default-cover.jpg"}
                                                 alt={ebook.title}
+                                                width={48}
+                                                height={64}
                                                 className="h-16 w-12 rounded-lg object-cover"
-                                            /> */}
+                                            />
+
                                         </td>
 
 

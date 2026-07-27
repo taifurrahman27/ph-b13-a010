@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@heroui/react";
 import { toast } from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const genres = [
     "Programming",
@@ -32,23 +33,25 @@ const languages = [
     "Arabic",
 ];
 
-export default function AddEbookForm() {
+export default function AddEbookForm({
+    mode = "add",
+    ebook = null,
+}) {
     const [loading, setLoading] = useState(false);
 
     const { data: session } = authClient.useSession();
 
     const [formData, setFormData] = useState({
-        title: "",
-        slug: "",
-        coverImage: "",
-        description: "",
-        price: "",
-        genre: "",
-        language: "English",
-        pages: "",
-        fileUrl: "",
+        title: ebook?.title || "",
+        slug: ebook?.slug || "",
+        coverImage: ebook?.coverImage || "",
+        description: ebook?.description || "",
+        price: ebook?.price || "",
+        genre: ebook?.genre || "",
+        language: ebook?.language || "English",
+        pages: ebook?.pages || "",
+        fileUrl: ebook?.fileUrl || "",
     });
-
 
     const createSlug = (value) => {
         return value
@@ -77,6 +80,7 @@ export default function AddEbookForm() {
             [name]: value,
         }));
     };
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -102,8 +106,18 @@ export default function AddEbookForm() {
         };
 
         try {
-            const res = await fetch("http://localhost:5000/ebooks", {
-                method: "POST",
+            const endpoint =
+                mode === "edit"
+                    ? `http://localhost:5000/ebooks/${ebook._id}`
+                    : "http://localhost:5000/ebooks";
+
+            const method =
+                mode === "edit"
+                    ? "PATCH"
+                    : "POST";
+
+            const res = await fetch(endpoint, {
+                method,
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -116,7 +130,17 @@ export default function AddEbookForm() {
                 throw new Error(data.message);
             }
 
-            toast.success(data.message);
+            toast.success(
+                mode === "edit"
+                    ? "Ebook updated successfully!"
+                    : "Ebook published successfully!"
+
+            );
+            setTimeout(() => {
+                router.push("/dashboard/writer/manage-ebooks");
+            }, 1000);
+
+
 
             setFormData({
                 title: "",
@@ -138,6 +162,7 @@ export default function AddEbookForm() {
     };
 
     return (
+
         <form
             onSubmit={handleSubmit}
             className="space-y-8"
@@ -342,19 +367,21 @@ export default function AddEbookForm() {
 
                 <Button
                     type="button"
-                    variant="bordered"
+                    variant="secondary"
                     size="lg"
                 >
                     Cancel
                 </Button>
 
-                <Button
-                    type="submit"
-                    color="secondary"
-                    size="lg"
-                    isLoading={loading}
+                <Button type="submit"
                 >
-                    {loading ? "Publishing..." : "Publish Ebook"}
+                    {loading
+                        ? mode === "edit"
+                            ? "Updating..."
+                            : "Publishing..."
+                        : mode === "edit"
+                            ? "Update Ebook"
+                            : "Publish Ebook"}
                 </Button>
 
             </div>
