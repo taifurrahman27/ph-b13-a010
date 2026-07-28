@@ -163,13 +163,13 @@ export default function ManageEbooksTable({ ebooks }) {
 
                                         <td className="px-6 py-4">
 
-                                            <Image
-                                                // src={ebook.coverImage || "/default-cover.jpg"}
+                                            {/* <Image
+                                                src={ebook.coverImage || "/default-cover.jpg"}
                                                 alt={ebook.title}
                                                 width={48}
                                                 height={64}
                                                 className="h-16 w-12 rounded-lg object-cover"
-                                            />
+                                            /> */}
 
                                         </td>
 
