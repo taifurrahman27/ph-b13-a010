@@ -19,6 +19,7 @@ import {
 import MyNavLink from "./MyNavLink";
 import ThemeToggle from "./ThemeToggle";
 import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
     const [mobileOpen, setMobileOpen] = useState(false);

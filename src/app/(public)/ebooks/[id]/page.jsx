@@ -2,8 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import BookmarkButton from "@/components/ebooks/BookmarkButton";
 
 async function getEbook(id) {
+
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/ebooks/${id}`,
         {
@@ -19,8 +21,8 @@ async function getEbook(id) {
 }
 
 const EbookDetailsPage = async ({ params }) => {
-    const { id } = await params;
 
+    const { id } = await params;
     const ebook = await getEbook(id);
 
     if (!ebook) {
@@ -35,6 +37,7 @@ const EbookDetailsPage = async ({ params }) => {
 
     const alreadyPurchased = false;
     const isWriter = user?.id === ebook.writerId;
+
 
     return (
         <section className="min-h-screen bg-slate-50 py-14 dark:bg-slate-950">
@@ -51,7 +54,6 @@ const EbookDetailsPage = async ({ params }) => {
 
                     </div>
 
-                    {/* Information */}
 
                     <div>
 
@@ -137,7 +139,6 @@ const EbookDetailsPage = async ({ params }) => {
 
                         </div>
 
-                        {/* Buttons */}
 
                         <div className="mt-10 flex flex-wrap gap-4">
 
@@ -162,9 +163,7 @@ const EbookDetailsPage = async ({ params }) => {
                                 </button>
                             )}
 
-                            <button className="rounded-xl border border-violet-600 px-8 py-3 font-semibold text-violet-600 transition hover:bg-violet-600 hover:text-white">
-                                Bookmark
-                            </button>
+                            <BookmarkButton ebookId={ebook._id} />
 
                         </div>
 
