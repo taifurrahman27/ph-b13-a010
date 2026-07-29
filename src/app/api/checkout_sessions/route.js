@@ -4,10 +4,35 @@ import { ObjectId } from "mongodb";
 
 import clientPromise from "@/lib/mongodb";
 import { stripe } from "@/lib/stripe";
+import { auth } from "@/lib/auth";
 
 export async function POST(request) {
     try {
-        const { ebookId, userId } = await request.json();
+        const { ebookId } = await request.json();
+
+
+        const sessionUser = await auth.api.getSession({
+            headers: await headers(),
+        });
+
+
+        if (!sessionUser?.user) {
+            return NextResponse.json(
+                {
+                    message: "Unauthorized",
+                },
+                {
+                    status: 401,
+                }
+            );
+        }
+
+
+        const userId = sessionUser.user.id;
+
+        const userEmail = sessionUser.user.email;
+
+        const userName = sessionUser.user.name;
 
         if (!ebookId || !userId) {
             return NextResponse.json(
@@ -55,7 +80,18 @@ export async function POST(request) {
             headersList.get("origin") ||
             process.env.NEXT_PUBLIC_APP_URL;
 
+        const customer = await stripe.customers.create({
+            email: userEmail,
+            name: userName,
+            metadata: {
+                userId,
+            },
+        });
+
         const session = await stripe.checkout.sessions.create({
+
+            customer: customer.id,
+
             mode: "payment",
 
             payment_method_types: ["card"],
@@ -83,6 +119,7 @@ export async function POST(request) {
             metadata: {
                 ebookId,
                 userId,
+                ebookTitle: ebook.title,
                 writerId: ebook.writerId || "",
             },
 
