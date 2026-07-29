@@ -3,6 +3,9 @@ import { notFound } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import BookmarkButton from "@/components/ebooks/BookmarkButton";
+import PurchaseButton from "@/components/ebooks/PurchaseButton";
+import clientPromise from "@/lib/mongodb";
+
 
 async function getEbook(id) {
 
@@ -20,23 +23,51 @@ async function getEbook(id) {
     return res.json();
 }
 
+
 const EbookDetailsPage = async ({ params }) => {
 
     const { id } = await params;
+
     const ebook = await getEbook(id);
+
 
     if (!ebook) {
         notFound();
     }
 
+
     const session = await auth.api.getSession({
         headers: await headers(),
     });
 
+
     const user = session?.user;
 
-    const alreadyPurchased = false;
+
     const isWriter = user?.id === ebook.writerId;
+
+
+    let purchased = false;
+
+    if (user) {
+
+        const client = await clientPromise;
+
+        const db = client.db("fable");
+
+
+        const purchase = await db
+            .collection("purchases")
+            .findOne({
+                userId: user.id,
+                ebookId: ebook._id.toString(),
+                paymentStatus: "complete",
+            });
+
+
+        purchased = Boolean(purchase);
+    }
+
 
 
     return (
@@ -49,8 +80,7 @@ const EbookDetailsPage = async ({ params }) => {
 
                     <div className="overflow-hidden rounded-3xl bg-white shadow-xl dark:bg-slate-900">
 
-                        {/* // Ebook cover image will be displayed here */}
-
+                        {/* Ebook cover image */}
 
                     </div>
 
@@ -61,14 +91,16 @@ const EbookDetailsPage = async ({ params }) => {
                             {ebook.genre}
                         </span>
 
+
                         <h1 className="mt-5 text-5xl font-black">
                             {ebook.title}
                         </h1>
 
-                        <div className="flex items-center gap-3">
-                            {/* writer photo will be displayed here */}
+
+                        <div className="flex items-center gap-3 mt-4">
 
                             <div>
+
                                 <Link
                                     href={`/writers/${ebook.writer.id}`}
                                     className="font-semibold text-violet-600 hover:underline"
@@ -76,17 +108,22 @@ const EbookDetailsPage = async ({ params }) => {
                                     {ebook.writer.name}
                                 </Link>
 
+
                                 <p className="text-xs text-slate-500">
                                     Writer
                                 </p>
+
                             </div>
+
                         </div>
+
 
                         <div className="mt-8 flex flex-wrap gap-3">
 
                             <span className="rounded-lg bg-slate-200 px-4 py-2 dark:bg-slate-800">
                                 ${ebook.price}
                             </span>
+
 
                             <span
                                 className={`rounded-lg px-4 py-2 font-semibold ${ebook.status === "Available"
@@ -99,34 +136,34 @@ const EbookDetailsPage = async ({ params }) => {
 
                         </div>
 
+
                         <p className="mt-8 leading-8 text-slate-600 dark:text-slate-300">
                             {ebook.description}
                         </p>
 
+
                         <div className="mt-10 space-y-4 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
 
-                            <div className="flex justify-between">
 
+                            <div className="flex justify-between">
                                 <span>Genre</span>
 
                                 <span className="font-semibold">
                                     {ebook.genre}
                                 </span>
-
                             </div>
 
-                            <div className="flex justify-between">
 
+                            <div className="flex justify-between">
                                 <span>Status</span>
 
                                 <span className="font-semibold">
                                     {ebook.status}
                                 </span>
-
                             </div>
 
-                            <div className="flex justify-between">
 
+                            <div className="flex justify-between">
                                 <span>Uploaded</span>
 
                                 <span className="font-semibold">
@@ -134,36 +171,39 @@ const EbookDetailsPage = async ({ params }) => {
                                         ebook.dateUploaded
                                     ).toLocaleDateString()}
                                 </span>
-
                             </div>
+
 
                         </div>
 
 
+
                         <div className="mt-10 flex flex-wrap gap-4">
 
-                            {alreadyPurchased ? (
+
+                            {purchased ? (
+
                                 <button
                                     disabled
-                                    className="rounded-xl bg-green-600 px-8 py-3 font-semibold text-white"
+                                    className="rounded-xl bg-green-600 px-8 py-3 font-semibold text-white cursor-not-allowed"
                                 >
-                                    Already Purchased
+                                    Already Purchased ✓
                                 </button>
+
                             ) : (
-                                <button
+
+                                <PurchaseButton
+                                    ebookId={ebook._id.toString()}
+                                    userId={user?.id}
+                                    apiUrl={process.env.NEXT_PUBLIC_SERVER_URL}
                                     disabled={isWriter}
-                                    className={`rounded-xl px-8 py-3 font-semibold text-white transition ${isWriter
-                                        ? "cursor-not-allowed bg-slate-400"
-                                        : "bg-violet-600 hover:bg-violet-700"
-                                        }`}
-                                >
-                                    {isWriter
-                                        ? "Your Ebook"
-                                        : "Purchase Ebook"}
-                                </button>
+                                />
+
                             )}
 
-                            <BookmarkButton ebookId={ebook._id} />
+
+                            <BookmarkButton ebookId={ebook._id.toString()} />
+
 
                         </div>
 
