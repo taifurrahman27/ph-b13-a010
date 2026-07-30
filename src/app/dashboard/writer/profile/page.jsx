@@ -11,5 +11,9 @@ export default async function WriterProfilePage() {
         redirect("/login");
     }
 
+    if (session.user.role !== "writer") {
+        redirect("/");
+    }
+
     redirect("/profile");
 }

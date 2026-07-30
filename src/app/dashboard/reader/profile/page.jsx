@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function WriterDashboard() {
+export default async function ReaderProfilePage() {
     const session = await auth.api.getSession({
         headers: await headers(),
     });
@@ -11,9 +11,9 @@ export default async function WriterDashboard() {
         redirect("/login");
     }
 
-    if (session.user.role !== "writer") {
+    if (session.user.role !== "reader") {
         redirect("/");
     }
 
-    redirect("/dashboard/writer/home");
+    redirect("/profile");
 }

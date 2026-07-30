@@ -22,7 +22,7 @@ const sidebarMenus = {
     reader: [
         {
             title: "Dashboard",
-            href: "/dashboard/reader",
+            href: "/dashboard/reader/home",
             icon: HiOutlineHome,
         },
         {
@@ -50,7 +50,7 @@ const sidebarMenus = {
     writer: [
         {
             title: "Dashboard",
-            href: "/dashboard/writer",
+            href: "/dashboard/writer/home",
             icon: HiOutlineHome,
         },
         {
@@ -94,7 +94,7 @@ const sidebarMenus = {
     admin: [
         {
             title: "Dashboard",
-            href: "/dashboard/admin",
+            href: "/dashboard/admin/home",
             icon: HiOutlineHome,
         },
         {
@@ -105,6 +105,11 @@ const sidebarMenus = {
         {
             title: "Manage Ebooks",
             href: "/dashboard/admin/ebooks",
+            icon: HiOutlinePencilSquare,
+        },
+        {
+            title: "All Transactions",
+            href: "/dashboard/admin/transactions",
             icon: HiOutlinePencilSquare,
         },
         {
