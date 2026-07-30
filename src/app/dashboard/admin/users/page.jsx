@@ -1,6 +1,7 @@
+import ChangeRoleSelect from "@/components/dashboard/admin/ChangeRoleSelect";
+import DeleteUserButton from "@/components/dashboard/admin/DeleteUserButton";
 import Image from "next/image";
 import {
-    HiOutlineTrash,
     HiOutlineUserCircle,
 } from "react-icons/hi2";
 
@@ -111,33 +112,18 @@ export default async function UserManagePage() {
 
                                         <td className="px-6 py-4">
 
-                                            <select
-                                                defaultValue={user.role}
-                                                className="rounded-lg border px-3 py-2 dark:bg-slate-900"
-                                            >
-                                                <option value="reader">
-                                                    Reader
-                                                </option>
-
-                                                <option value="writer">
-                                                    Writer
-                                                </option>
-
-                                                <option value="admin">
-                                                    Admin
-                                                </option>
-
-                                            </select>
+                                            <td className="px-6 py-4">
+                                                <ChangeRoleSelect
+                                                    id={user._id}
+                                                    currentRole={user.role}
+                                                />
+                                            </td>
 
                                         </td>
 
                                         <td className="px-6 py-4">
 
-                                            <button className="rounded-lg bg-red-500 p-2 text-white hover:bg-red-600">
-
-                                                <HiOutlineTrash className="text-xl" />
-
-                                            </button>
+                                            <DeleteUserButton id={user._id} />
 
                                         </td>
 
@@ -158,3 +144,4 @@ export default async function UserManagePage() {
         </section>
     );
 }
+
