@@ -50,8 +50,19 @@ export default function ChangeRoleSelect({ id, currentRole }) {
                 throw new Error(data.message);
             }
 
-            toast.success("User role updated.");
-
+            await Swal.fire({
+                icon: "success",
+                title: "Role Updated",
+                text: "The user's role has been updated successfully.",
+                background: "#1e293b",
+                color: "#f8fafc",
+                iconColor: "#8b5cf6",
+                timer: 1800,
+                showConfirmButton: false,
+                customClass: {
+                    popup: "rounded-3xl shadow-2xl",
+                },
+            });
             router.refresh();
         } catch (error) {
             toast.error(error.message || "Failed to update role.");
@@ -64,7 +75,7 @@ export default function ChangeRoleSelect({ id, currentRole }) {
         <select
             defaultValue={currentRole}
             onChange={handleRoleChange}
-            className="rounded-lg border border-slate-300 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900"
+            className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
         >
             <option value="reader">Reader</option>
             <option value="writer">Writer</option>
