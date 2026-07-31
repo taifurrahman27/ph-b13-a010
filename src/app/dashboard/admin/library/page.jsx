@@ -94,7 +94,7 @@ export default async function AdminLibrary() {
                                     src={book.coverImage}
                                     alt={book.title}
                                     fill
-                                    unoptimized
+
                                 />
 
                             </div>

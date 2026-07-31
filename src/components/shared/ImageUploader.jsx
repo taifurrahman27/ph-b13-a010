@@ -76,7 +76,6 @@ export default function ImageUploader({
                             src={value}
                             alt="Image Preview"
                             fill
-                            unoptimized
                             className="object-cover"
                         />
                     </div>

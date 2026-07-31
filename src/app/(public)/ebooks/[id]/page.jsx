@@ -45,8 +45,10 @@ const EbookDetailsPage = async ({ params }) => {
     const user = session?.user;
 
 
-    const isWriter = user?.id === ebook.writerId;
-
+    const isWriter =
+        user &&
+        ebook.writer &&
+        user.id === ebook.writer.id;
 
     let purchased = false;
 
@@ -62,7 +64,8 @@ const EbookDetailsPage = async ({ params }) => {
             .findOne({
                 userId: user.id,
                 ebookId: ebook._id.toString(),
-                paymentStatus: "complete",
+                paymentStatus: "Paid",
+                type: "purchase",
             });
 
 
@@ -84,7 +87,6 @@ const EbookDetailsPage = async ({ params }) => {
                             src={ebook.coverImage || "/placeholder.png"}
                             alt={ebook.title}
                             fill
-                            unoptimized
                             className="object-cover"
                         />
                     </div>

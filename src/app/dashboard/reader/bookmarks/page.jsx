@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
     HiOutlineBookmark,
-    HiOutlineBookOpen,
     HiOutlineStar,
 } from "react-icons/hi2";
 
@@ -81,7 +80,7 @@ const ReaderBookmarkPage = async () => {
                                     alt={ebook.title}
                                     fill
                                     className="object-cover"
-                                    unoptimized
+
                                 />
 
                             </div>

@@ -16,7 +16,6 @@ export default function CustomImage({
             width={width}
             height={height}
             className={className}
-            unoptimized
         />
     );
 }

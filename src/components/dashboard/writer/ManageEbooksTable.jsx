@@ -152,7 +152,6 @@ export default function ManageEbooksTable({ ebooks }) {
                                                     width={48}
                                                     height={64}
                                                     className="h-16 w-12 rounded-lg object-cover"
-                                                    unoptimized
                                                 />
 
                                             </td>
@@ -265,7 +264,7 @@ export default function ManageEbooksTable({ ebooks }) {
                                             width={70}
                                             height={95}
                                             className="rounded-lg object-cover"
-                                            unoptimized
+
                                         />
                                         <div className="flex-1">
                                             <h3 className="font-bold">

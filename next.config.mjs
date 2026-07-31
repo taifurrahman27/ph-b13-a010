@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @type {import('next.config.js').NextConfig} */
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -6,8 +6,8 @@ const nextConfig = {
         protocol: "https",
         hostname: "i.ibb.co",
       },
-
     ],
+    unoptimized: true,
   },
 };
 

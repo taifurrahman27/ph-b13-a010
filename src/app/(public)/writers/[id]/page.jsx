@@ -32,7 +32,7 @@ const WriterDetailsPage = async ({ params }) => {
                             alt={writer.name}
                             height={300}
                             width={400}
-                            unoptimized
+
                         />
                         <div className="flex-1">
 
@@ -117,7 +117,7 @@ const WriterDetailsPage = async ({ params }) => {
                                     src={ebook.coverImage || "/placeholder.png"}
                                     alt={ebook.title}
                                     fill
-                                    unoptimized
+
                                 />
 
                             </div>

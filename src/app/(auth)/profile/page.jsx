@@ -35,11 +35,35 @@ const ProfilePage = () => {
         return (
             <section className="min-h-screen bg-slate-50 py-16 dark:bg-slate-950">
                 <div className="container mx-auto px-4">
-                    <div className="mx-auto max-w-3xl rounded-3xl border border-slate-200 bg-white p-10 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-                        <p className="text-center text-lg">
-                            Loading profile...
-                        </p>
+
+                    <div className="mx-auto max-w-4xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl dark:border-slate-800 dark:bg-slate-900 animate-pulse">
+                        <div className="bg-violet-600 px-10 py-12 text-center">
+                            <div className="mx-auto h-80 w-full rounded-2xl bg-violet-500/40" />
+                            <div className="mx-auto mt-6 h-10 w-56 rounded bg-violet-400/40" />
+                            <div className="mx-auto mt-4 h-5 w-72 rounded bg-violet-400/30" />
+
+                        </div>
+                        <div className="grid gap-6 p-8 md:grid-cols-2">
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <div
+                                    key={index}
+                                    className={`rounded-2xl border border-slate-200 p-5 dark:border-slate-700 ${index === 4 ? "md:col-span-2" : ""
+                                        }`}
+                                >
+                                    <div className="mx-auto h-5 w-32 rounded bg-slate-200 dark:bg-slate-700" />
+
+                                    <div className="mx-auto mt-4 h-6 w-48 rounded bg-slate-200 dark:bg-slate-700" />
+                                </div>
+                            ))}
+
+                        </div>
+
+                        <div className="my-8 flex justify-center">
+                            <div className="h-11 w-36 rounded-xl bg-slate-200 dark:bg-slate-700" />
+                        </div>
+
                     </div>
+
                 </div>
             </section>
         );
@@ -79,7 +103,7 @@ const ProfilePage = () => {
                                 alt={user.name}
                                 fill
                                 className="mx-auto rounded-2xl border-2 border-gray-200 object-cover"
-                                unoptimized
+
                             />
 
                         </div>

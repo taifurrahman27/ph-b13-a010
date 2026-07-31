@@ -79,7 +79,7 @@ export default async function PurchasedEbookPage() {
                                     alt={ebook.title}
                                     fill
                                     className="object-cover"
-                                    unoptimized
+
                                 />
 
                             </div>

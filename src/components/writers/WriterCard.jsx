@@ -12,7 +12,7 @@ const WriterCard = ({ writer }) => {
                     alt={writer.name}
                     height={300}
                     width={400}
-                    unoptimized
+
                 />
                 <h2 className="mt-5 text-xl font-bold">
                     {writer.name}

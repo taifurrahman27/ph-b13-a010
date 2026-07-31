@@ -65,7 +65,7 @@ export default async function UserManagePage() {
                                         width={56}
                                         height={56}
                                         className="rounded-full"
-                                        unoptimized
+
                                     />
                                 ) : (
                                     <HiOutlineUserCircle className="text-6xl text-slate-400" />
@@ -179,7 +179,7 @@ export default async function UserManagePage() {
                                                     width={56}
                                                     height={56}
                                                     className="rounded-full"
-                                                    unoptimized
+
                                                 />
                                             ) : (
                                                 <HiOutlineUserCircle className="text-5xl text-slate-400" />

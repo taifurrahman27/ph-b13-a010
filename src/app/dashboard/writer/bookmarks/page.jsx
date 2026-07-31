@@ -324,8 +324,6 @@ export default function WriterBookmarkPage() {
 
                                                 fill
 
-                                                unoptimized
-
                                                 className="object-cover"
 
                                             />
@@ -438,31 +436,17 @@ export default function WriterBookmarkPage() {
                                                     <HiOutlineTrash className="text-xl" />
 
                                                 </button>
-
-
                                             </div>
 
-
-
                                         </div>
-
-
                                     </article>
 
                                 );
-
-
                             })
                         }
-
-
                     </div>
-
-
                 )
             }
-
-
 
         </section>
 

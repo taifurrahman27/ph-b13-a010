@@ -9,7 +9,7 @@ export async function uploadImage(file) {
         `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`,
         formData
     );
-
+    console.log(res.data.data);
     return res.data.data.url;
 }
 

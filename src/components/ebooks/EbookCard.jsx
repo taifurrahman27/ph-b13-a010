@@ -4,18 +4,20 @@ import Image from "next/image";
 
 const EbookCard = ({ ebook }) => {
 
-
     return (
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
 
             <Link href={`/ebooks/${ebook._id}`}>
                 <div className="relative h-80 w-full overflow-hidden">
-                    <Image
-                        src={ebook.coverImage || "/placeholder.png"}
-                        alt={ebook.title}
-                        fill
-                        unoptimized
-                    />
+                    <div className="relative h-72 w-full overflow-hidden rounded-xl">
+                        <Image
+                            src={ebook.coverImage}
+                            alt={ebook.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 300px"
+                            className="object-cover"
+                        />
+                    </div>
 
                 </div>
             </Link>
@@ -39,7 +41,7 @@ const EbookCard = ({ ebook }) => {
                         alt={ebook.writer.name}
                         height={60}
                         width={80}
-                        unoptimized
+
                     />
                     <div>
                         <Link
