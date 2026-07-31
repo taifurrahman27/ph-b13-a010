@@ -123,7 +123,7 @@ export default async function PurchasedEbookPage() {
                                 </div>
 
                                 <Link
-                                    href={`/dashboard/reader/read/${ebook._id}`}
+                                    href={`/dashboard/writer/read/${ebook._id}`}
                                     className="block rounded-xl bg-violet-600 py-3 text-center font-semibold text-white transition hover:bg-violet-700"
                                 >
                                     Read Now
