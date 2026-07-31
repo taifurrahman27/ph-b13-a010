@@ -55,7 +55,7 @@ export default async function AdminHomePage() {
         },
         {
             title: "Total Revenue",
-            value: `$${analytics.stats.revenue}`,
+            value: `$${Math.round(analytics.stats.revenue)}`,
             icon: HiOutlineCurrencyDollar,
             color: "bg-yellow-100 text-yellow-600",
         },

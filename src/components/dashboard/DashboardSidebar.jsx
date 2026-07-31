@@ -112,6 +112,13 @@ const sidebarMenus = {
             href: "/dashboard/admin/transactions",
             icon: HiOutlinePencilSquare,
         },
+
+        {
+            title: "Library",
+            href: "/dashboard/admin/library",
+            icon: HiOutlinePencilSquare,
+        },
+
         {
             title: "Site Settings",
             href: "/dashboard/admin/settings",

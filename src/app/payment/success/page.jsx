@@ -1,7 +1,7 @@
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { HiCheckCircle, HiEnvelope, HiArrowRight } from "react-icons/hi2";
+import { HiArrowRight, HiCheckCircle, HiEnvelope } from "react-icons/hi2";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
@@ -19,6 +19,10 @@ export default async function Success({ searchParams }) {
         session_id
     );
 
+    const client = await clientPromise;
+
+    const db = client.db("fable");
+
 
     const {
         status,
@@ -26,36 +30,38 @@ export default async function Success({ searchParams }) {
         metadata = {},
     } = session;
 
-
-    const customerEmail =
-        customer_details?.email || "your email";
-
     const {
         userId,
         ebookId,
-        ebookTitle,
-        writerId,
     } = metadata;
-
 
     if (status !== "complete") {
         return redirect("/");
     }
 
+    const user = await db.collection("user").findOne({
+        _id: new ObjectId(userId),
+    });
 
-    const client = await clientPromise;
+    const role = user?.role || "reader";
 
-    const db = client.db("fable");
+    const dashboardLink = {
+        reader: "/dashboard/reader/library",
+        writer: "/dashboard/writer/home",
+        admin: "/dashboard/admin/home",
+    }[role];
 
-    let finalTitle = ebookTitle;
 
-    if (!finalTitle && ebookId) {
-        const ebook = await db
-            .collection("ebooks")
-            .findOne({
-                _id: new ObjectId(ebookId),
-            });
-        finalTitle = ebook?.title || "your ebook";
+    const customerEmail =
+        customer_details?.email || "your email";
+
+
+    const ebook = await db.collection("ebooks").findOne({
+        _id: new ObjectId(ebookId),
+    });
+
+    if (!ebook) {
+        throw new Error("Ebook not found.");
     }
 
     const purchaseCollection =
@@ -63,17 +69,31 @@ export default async function Success({ searchParams }) {
 
     const purchaseData = {
         sessionId: session_id,
-        userId,
+        paymentIntentId: session.payment_intent,
+        type: "purchase",
+        paymentStatus:
+            session.payment_status === "paid"
+                ? "Paid"
+                : session.payment_status,
+        amount: Number(session.amount_total / 100),
+        currency: (session.currency || "usd").toUpperCase(),
+        customerName:
+            customer_details?.name || "",
         customerEmail,
+        userId,
         ebookId,
-        ebookTitle: finalTitle,
-        writerId,
-        paymentStatus: status,
-        purchasedAt: new Date(),
+        ebookTitle: ebook.title,
+        ebookSlug: ebook.slug,
+        ebookCover: ebook.coverImage,
+        writerId: ebook.writer.id,
+        writerName: ebook.writer.name,
+        writerEmail: ebook.writer.email,
+        writerPhoto: ebook.writer.photo,
+        createdAt: new Date(session.created * 1000),
     };
 
 
-    await purchaseCollection.updateOne(
+    const result = await purchaseCollection.updateOne(
         {
             sessionId: session_id,
         },
@@ -85,8 +105,35 @@ export default async function Success({ searchParams }) {
         }
     );
 
+    if (result.upsertedCount > 0) {
+        await db.collection("ebooks").updateOne(
+            {
+                _id: new ObjectId(ebookId),
+            },
+            {
+                $inc: {
+                    totalSales: 1,
+                    totalRevenue: purchaseData.amount,
+                },
+            }
+        );
+    }
 
     console.log("Purchase saved successfully");
+
+    if (result.upsertedCount > 0) {
+        await db.collection("ebooks").updateOne(
+            {
+                _id: new ObjectId(ebookId),
+            },
+            {
+                $inc: {
+                    totalSales: 1,
+                },
+            }
+        );
+    };
+
 
 
 
@@ -180,7 +227,7 @@ export default async function Success({ searchParams }) {
                             text-purple-300
                             "
                         >
-                            {finalTitle}
+                            {ebook.title}
                         </span>
 
                         {" "}from{" "}
@@ -257,8 +304,7 @@ export default async function Success({ searchParams }) {
 
 
                     <Link
-                        href="/dashboard/reader/library"
-
+                        href={dashboardLink}
                         className="
                         mt-8
                         inline-flex
@@ -310,3 +356,4 @@ export default async function Success({ searchParams }) {
         </main>
     );
 }
+
