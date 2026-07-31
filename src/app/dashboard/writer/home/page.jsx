@@ -1,3 +1,5 @@
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import Link from "next/link";
 import {
     HiOutlineBookOpen,
@@ -8,38 +10,69 @@ import {
     HiOutlineChartBar,
 } from "react-icons/hi2";
 
-const stats = [
-    {
-        title: "Total Ebooks",
-        value: "12",
-        icon: HiOutlineBookOpen,
-        color: "bg-violet-100 text-violet-600",
-    },
-    {
-        title: "Total Sales",
-        value: "86",
-        icon: HiOutlineShoppingBag,
-        color: "bg-green-100 text-green-600",
-    },
-    {
-        title: "Revenue",
-        value: "$1,240",
-        icon: HiOutlineCurrencyDollar,
-        color: "bg-blue-100 text-blue-600",
-    },
-    {
-        title: "Average Rating",
-        value: "4.8",
-        icon: HiOutlineStar,
-        color: "bg-yellow-100 text-yellow-600",
-    },
-];
+const API_URL =
+    process.env.NEXT_PUBLIC_SERVER_URL ||
+    "http://localhost:5000";
 
-export default function WriterDashboardPage() {
+async function getAnalytics(writerId) {
+    const res = await fetch(
+        `${API_URL}/analytics/writer/${writerId}`,
+        {
+            cache: "no-store",
+        }
+    );
+
+    if (!res.ok) {
+        throw new Error("Failed to load analytics");
+    }
+
+    return res.json();
+}
+
+
+export default async function WriterDashboardPage() {
+
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    const analytics = await getAnalytics(
+        session.user.id
+    );
+
+
+    const stats = [
+        {
+            title: "Total Ebooks",
+            value: analytics.stats.ebooks,
+            icon: HiOutlineBookOpen,
+            color: "bg-violet-100 text-violet-600",
+        },
+        {
+            title: "Total Sales",
+            value: analytics.stats.sales,
+            icon: HiOutlineShoppingBag,
+            color: "bg-green-100 text-green-600",
+        },
+        {
+            title: "Revenue",
+            value: `$${Math.round(analytics.stats.revenue)}`,
+            icon: HiOutlineCurrencyDollar,
+            color: "bg-blue-100 text-blue-600",
+        },
+        {
+            title: "Average Rating",
+            value: analytics.stats.averageRating.toFixed(1),
+            icon: HiOutlineStar,
+            color: "bg-yellow-100 text-yellow-600",
+        },
+    ];
+
+
+
     return (
         <section className="space-y-8">
 
-            {/* Welcome */}
             <div className="rounded-3xl bg-linear-to-r from-violet-600 to-purple-700 p-8 text-white shadow-lg">
 
                 <h1 className="text-3xl font-black">
@@ -180,8 +213,41 @@ export default function WriterDashboardPage() {
                         Recent Sales
                     </h2>
 
-                    <div className="flex h-56 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 text-slate-500 dark:border-slate-700">
-                        Sales history will appear here.
+                    <div className="space-y-4">
+                        {analytics.recentSales.length === 0 ? (
+                            <p className="text-slate-500">
+                                No sales yet.
+                            </p>
+                        ) : (
+                            analytics.recentSales.map((sale) => (
+                                <div
+                                    key={sale._id}
+                                    className="flex items-center justify-between rounded-xl border p-4"
+                                >
+                                    <div>
+                                        <h3 className="font-semibold">
+                                            {sale.ebookTitle}
+                                        </h3>
+
+                                        <p className="text-sm text-slate-500">
+                                            {sale.customerEmail}
+                                        </p>
+                                    </div>
+
+                                    <div className="text-right">
+                                        <p className="font-bold text-green-600">
+                                            ${sale.amount}
+                                        </p>
+
+                                        <p className="text-xs text-slate-500">
+                                            {new Date(
+                                                sale.createdAt
+                                            ).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))
+                        )}
                     </div>
 
                 </div>
@@ -192,8 +258,33 @@ export default function WriterDashboardPage() {
                         Top Selling Ebooks
                     </h2>
 
-                    <div className="flex h-56 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 text-slate-500 dark:border-slate-700">
-                        Top-selling ebooks will appear here.
+                    <div className="space-y-4">
+                        {analytics.topBooks.length === 0 ? (
+                            <p className="text-slate-500">
+                                No ebook sales yet.
+                            </p>
+                        ) : (
+                            analytics.topBooks.map((book) => (
+                                <div
+                                    key={book._id}
+                                    className="flex items-center justify-between rounded-xl border p-4"
+                                >
+                                    <div>
+                                        <h3 className="font-semibold">
+                                            {book.title}
+                                        </h3>
+
+                                        <p className="text-sm text-slate-500">
+                                            {book.sales} sales
+                                        </p>
+                                    </div>
+
+                                    <p className="font-bold text-violet-600">
+                                        ${book.revenue}
+                                    </p>
+                                </div>
+                            ))
+                        )}
                     </div>
 
                 </div>

@@ -50,6 +50,7 @@ export default async function UserManagePage() {
 
                     users.map((user) => (
 
+
                         <div
                             key={user._id}
                             className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
@@ -64,6 +65,7 @@ export default async function UserManagePage() {
                                         width={56}
                                         height={56}
                                         className="rounded-full"
+                                        unoptimized
                                     />
                                 ) : (
                                     <HiOutlineUserCircle className="text-6xl text-slate-400" />
@@ -174,9 +176,10 @@ export default async function UserManagePage() {
                                                 <Image
                                                     src={user.image}
                                                     alt={user.name}
-                                                    width={48}
-                                                    height={48}
+                                                    width={56}
+                                                    height={56}
                                                     className="rounded-full"
+                                                    unoptimized
                                                 />
                                             ) : (
                                                 <HiOutlineUserCircle className="text-5xl text-slate-400" />

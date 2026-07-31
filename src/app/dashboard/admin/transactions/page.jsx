@@ -23,7 +23,6 @@ export default async function AllTransactionsPage() {
 
     const transactions = await getTransactions();
 
-
     return (
 
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -36,11 +35,11 @@ export default async function AllTransactionsPage() {
                             <th className="px-6 py-4">Type</th>
                             <th className="px-6 py-4">Email</th>
                             <th className="px-6 py-4">Amount</th>
-                            <th className="px-6 py-4">Status</th>
                             <th className="px-6 py-4">Date</th>
                         </tr>
                     </thead>
                     <tbody>
+
                         {transactions.length === 0 ? (
                             <tr>
                                 <td
@@ -59,7 +58,7 @@ export default async function AllTransactionsPage() {
                                     key={transaction._id}
                                     className="border-t border-slate-200 dark:border-slate-800"
                                 >
-                                    <td className="px-6 py-4 font-mono text-xs">
+                                    <td className="px-4 py-4 font-mono text-xs">
                                         {transaction.paymentIntentId}
                                     </td>
                                     <td className="px-6 py-4">
@@ -75,17 +74,16 @@ export default async function AllTransactionsPage() {
                                         </span>
 
                                     </td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-4 py-4">
                                         {transaction.customerEmail}
                                     </td>
-                                    <td className="px-6 py-4 font-semibold">
-                                        ${transaction.amount}
-                                    </td>
                                     <td className="px-6 py-4">
-                                        <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 dark:bg-green-500/20 dark:text-green-300">
-                                            {transaction.paymentStatus}
+                                        <span className="rounded-full bg-green-100 px-3 py-1  font-semibold text-green-700 dark:bg-green-500/20 dark:text-green-300">
+                                            ${transaction.amount}
                                         </span>
+
                                     </td>
+
                                     <td className="px-6 py-4 text-sm text-slate-500">
                                         {new Date(transaction.createdAt).toLocaleDateString()}
                                     </td>
@@ -129,7 +127,7 @@ export default async function AllTransactionsPage() {
                                             : "Purchase"}
                                     </span>
 
-                                    <span className="font-bold">
+                                    <span className="rounded-full bg-green-100 px-3 py-1  font-bold text-green-700 dark:bg-green-500/20 dark:text-green-300">
                                         ${transaction.amount}
                                     </span>
                                 </div>
@@ -142,10 +140,6 @@ export default async function AllTransactionsPage() {
                                     </p>
                                 </div>
                                 <div className="flex items-center justify-between">
-                                    <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700 dark:bg-green-500/20 dark:text-green-300">
-                                        {transaction.paymentStatus}
-                                    </span>
-
                                     <span className="text-sm text-slate-500">
                                         {new Date(transaction.createdAt).toLocaleDateString()}
                                     </span>

@@ -22,14 +22,18 @@ const WriterDetailsPage = async ({ params }) => {
         <section className="min-h-screen bg-slate-50 py-16 dark:bg-slate-950">
             <div className="container mx-auto px-4">
 
-                {/* Writer Profile */}
 
                 <div className="mb-12 rounded-3xl border border-slate-200 bg-white p-8 shadow-lg dark:border-slate-800 dark:bg-slate-900">
 
                     <div className="flex flex-col items-center gap-8 md:flex-row">
 
-                        {/* writer photo will be displayed here */}
-
+                        <Image
+                            src={writer.photo || "/placeholder.png"}
+                            alt={writer.name}
+                            height={300}
+                            width={400}
+                            unoptimized
+                        />
                         <div className="flex-1">
 
                             <h1 className="text-4xl font-black">
@@ -86,7 +90,6 @@ const WriterDetailsPage = async ({ params }) => {
 
                 </div>
 
-                {/* Writer Books */}
 
                 <div className="mb-8">
 
@@ -109,7 +112,15 @@ const WriterDetailsPage = async ({ params }) => {
                             className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow transition hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900"
                         >
 
-                            {/* ebook cover photo will be displayed here */}
+                            <div className="relative h-80 w-full overflow-hidden">
+                                <Image
+                                    src={ebook.coverImage || "/placeholder.png"}
+                                    alt={ebook.title}
+                                    fill
+                                    unoptimized
+                                />
+
+                            </div>
 
                             <div className="space-y-4 p-5">
 

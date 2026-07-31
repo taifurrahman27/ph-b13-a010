@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import BookmarkButton from "@/components/ebooks/BookmarkButton";
 import PurchaseButton from "@/components/ebooks/PurchaseButton";
 import clientPromise from "@/lib/mongodb";
+import Image from "next/image";
 
 
 async function getEbook(id) {
@@ -78,10 +79,14 @@ const EbookDetailsPage = async ({ params }) => {
                 <div className="grid gap-10 lg:grid-cols-2">
 
 
-                    <div className="overflow-hidden rounded-3xl bg-white shadow-xl dark:bg-slate-900">
-
-                        {/* Ebook cover image */}
-
+                    <div className="relative aspect-2/3 overflow-hidden rounded-3xl bg-white shadow-xl dark:bg-slate-900">
+                        <Image
+                            src={ebook.coverImage || "/placeholder.png"}
+                            alt={ebook.title}
+                            fill
+                            unoptimized
+                            className="object-cover"
+                        />
                     </div>
 
 

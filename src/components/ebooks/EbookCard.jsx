@@ -1,12 +1,22 @@
 import Link from "next/link";
+import CustomImage from "../shared/CustomImage";
+import Image from "next/image";
 
 const EbookCard = ({ ebook }) => {
+
+
     return (
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl dark:border-slate-800 dark:bg-slate-900">
 
             <Link href={`/ebooks/${ebook._id}`}>
                 <div className="relative h-80 w-full overflow-hidden">
-                    {/* image will be displayed here */}
+                    <Image
+                        src={ebook.coverImage || "/placeholder.png"}
+                        alt={ebook.title}
+                        fill
+                        unoptimized
+                    />
+
                 </div>
             </Link>
 
@@ -23,8 +33,14 @@ const EbookCard = ({ ebook }) => {
                 </Link>
 
                 <div className="flex items-center gap-3">
-                    {/* writer photo */}
 
+                    <Image
+                        src={ebook.writer.photo || "/placeholder.png"}
+                        alt={ebook.writer.name}
+                        height={60}
+                        width={80}
+                        unoptimized
+                    />
                     <div>
                         <Link
                             href={`/writers/${ebook.writer.id}`}

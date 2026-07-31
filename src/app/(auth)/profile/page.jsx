@@ -73,13 +73,17 @@ const ProfilePage = () => {
 
                     <div className="bg-violet-600 px-10 py-12 text-center text-white">
 
-                        <Image
-                            src={user.image || "/user.jpg"}
-                            alt={user.name}
-                            width={120}
-                            height={120}
-                            className="mx-auto rounded-full border-3 border-white object-cover"
-                        />
+                        <div className="relative h-80">
+                            <Image
+                                src={user.image || "/user.jpg"}
+                                alt={user.name}
+                                fill
+                                className="mx-auto rounded-2xl border-2 border-gray-200 object-cover"
+                                unoptimized
+                            />
+
+                        </div>
+
 
                         <h1 className="mt-5 text-4xl font-bold">
                             {user.name}

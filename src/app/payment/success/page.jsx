@@ -47,8 +47,8 @@ export default async function Success({ searchParams }) {
 
     const dashboardLink = {
         reader: "/dashboard/reader/library",
-        writer: "/dashboard/writer/home",
-        admin: "/dashboard/admin/home",
+        writer: "/dashboard/writer/library",
+        admin: "/dashboard/admin/library",
     }[role];
 
 

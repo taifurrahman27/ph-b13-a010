@@ -44,8 +44,6 @@ export default async function AdminLibrary() {
     }
 
     const books = await getPurchasedBooks(user.id);
-    console.log(books);
-
 
     return (
         <section className="space-y-8">
@@ -96,7 +94,7 @@ export default async function AdminLibrary() {
                                     src={book.coverImage}
                                     alt={book.title}
                                     fill
-                                    className="object-cover"
+                                    unoptimized
                                 />
 
                             </div>
@@ -132,4 +130,3 @@ export default async function AdminLibrary() {
         </section>
     );
 }
-

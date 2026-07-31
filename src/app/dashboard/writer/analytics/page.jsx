@@ -1,51 +1,92 @@
+import WriterCharts from "@/components/dashboard/writer/WriterCharts";
 import {
     HiOutlineBookOpen,
     HiOutlineCurrencyDollar,
-    HiOutlineUsers,
+    HiOutlineShoppingBag,
     HiOutlineStar,
 } from "react-icons/hi2";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export default function WriterAnalyticsPage() {
+const API_URL =
+    process.env.NEXT_PUBLIC_SERVER_URL ||
+    "http://localhost:5000";
+
+async function getAnalytics(writerId) {
+    const res = await fetch(
+        `${API_URL}/analytics/writer/${writerId}`,
+        {
+            cache: "no-store",
+        }
+    );
+
+    if (!res.ok) {
+        const error = await res.json();
+        console.log(error);
+        throw new Error(error.message);
+    }
+
+    return res.json();
+}
+
+export default async function WriterAnalyticsPage() {
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    const analytics = await getAnalytics(
+        session.user.id
+    );
+
     const stats = [
         {
             title: "Total Ebooks",
-            value: "12",
+            value: analytics.stats.ebooks,
             icon: HiOutlineBookOpen,
-            iconBg: "bg-violet-100 dark:bg-violet-500/20",
-            iconColor: "text-violet-600 dark:text-violet-400",
+            iconBg:
+                "bg-violet-100 dark:bg-violet-500/20",
+            iconColor:
+                "text-violet-600 dark:text-violet-400",
         },
         {
-            title: "Total Revenue",
-            value: "$2,480",
+            title: "Total Sales",
+            value: analytics.stats.sales,
+            icon: HiOutlineShoppingBag,
+            iconBg:
+                "bg-green-100 dark:bg-green-500/20",
+            iconColor:
+                "text-green-600 dark:text-green-400",
+        },
+        {
+            title: "Revenue",
+            value: `$${Math.round(
+                analytics.stats.revenue
+            )}`,
             icon: HiOutlineCurrencyDollar,
-            iconBg: "bg-emerald-100 dark:bg-emerald-500/20",
-            iconColor: "text-emerald-600 dark:text-emerald-400",
-        },
-        {
-            title: "Total Readers",
-            value: "1,245",
-            icon: HiOutlineUsers,
-            iconBg: "bg-sky-100 dark:bg-sky-500/20",
-            iconColor: "text-sky-600 dark:text-sky-400",
+            iconBg:
+                "bg-blue-100 dark:bg-blue-500/20",
+            iconColor:
+                "text-blue-600 dark:text-blue-400",
         },
         {
             title: "Average Rating",
-            value: "4.8",
+            value: analytics.stats.averageRating.toFixed(1),
             icon: HiOutlineStar,
-            iconBg: "bg-amber-100 dark:bg-amber-500/20",
-            iconColor: "text-amber-600 dark:text-amber-400",
-        },
+            iconBg: "bg-yellow-100 dark:bg-yellow-500/20",
+            iconColor: "text-yellow-600 dark:text-yellow-400",
+        }
     ];
 
     return (
         <section className="space-y-8">
             <div>
-                <h1 className="text-4xl font-black text-slate-900 dark:text-white">
+                <h1 className="text-4xl font-black">
                     Analytics
                 </h1>
 
-                <p className="mt-2 text-slate-500 dark:text-slate-400">
-                    Track your ebook performance, sales, and reader engagement.
+                <p className="mt-2 text-slate-500">
+                    Track your ebook performance,
+                    revenue, and sales.
                 </p>
             </div>
 
@@ -56,7 +97,7 @@ export default function WriterAnalyticsPage() {
                     return (
                         <div
                             key={stat.title}
-                            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"
+                            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"
                         >
                             <div
                                 className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${stat.iconBg}`}
@@ -66,11 +107,11 @@ export default function WriterAnalyticsPage() {
                                 />
                             </div>
 
-                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                            <p className="text-sm text-slate-500">
                                 {stat.title}
                             </p>
 
-                            <h2 className="mt-2 text-3xl font-black text-slate-900 dark:text-white">
+                            <h2 className="mt-2 text-3xl font-black">
                                 {stat.value}
                             </h2>
                         </div>
@@ -78,17 +119,10 @@ export default function WriterAnalyticsPage() {
                 })}
             </div>
 
-            <div className="rounded-2xl border-2 border-dashed border-slate-300 bg-white p-16 text-center dark:border-slate-700 dark:bg-slate-900">
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                    Charts Coming Soon
-                </h3>
-
-                <p className="mx-auto mt-3 max-w-2xl text-slate-500 dark:text-slate-400">
-                    Sales trends, revenue growth, downloads, reader engagement,
-                    and other insights will appear here once analytics data is
-                    available.
-                </p>
-            </div>
+            <WriterCharts
+                salesData={analytics.salesData}
+                ebookData={analytics.ebookData}
+            />
         </section>
     );
 }
