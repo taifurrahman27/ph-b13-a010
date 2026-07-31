@@ -1,8 +1,10 @@
 import EbookGrid from "@/components/ebooks/EbookGrid";
+import EbookSearch from "@/components/ebooks/EbookSearch";
 
-async function getEbooks() {
+async function getEbooks(search = "") {
+
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/ebooks`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/ebooks?search=${search}`,
         {
             cache: "no-store",
         }
@@ -15,8 +17,11 @@ async function getEbooks() {
     return res.json();
 }
 
-const EbookPage = async () => {
-    const ebooks = await getEbooks();
+
+const EbookPage = async ({ searchParams }) => {
+    const params = await searchParams;
+    const search = params?.search || "";
+    const ebooks = await getEbooks(search);
 
     return (
         <section className="min-h-screen bg-slate-50 py-16 dark:bg-slate-950">
@@ -40,7 +45,7 @@ const EbookPage = async () => {
                     </p>
 
                 </div>
-
+                <EbookSearch />
                 <EbookGrid ebooks={ebooks} />
 
             </div>
