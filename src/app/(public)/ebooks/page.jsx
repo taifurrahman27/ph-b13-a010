@@ -1,11 +1,13 @@
 import EbookGrid from "@/components/ebooks/EbookGrid";
+import EbookPagination from "@/components/ebooks/EbookPagination";
 import EbookSearch from "@/components/ebooks/EbookSearch";
 
 async function getEbooks(
     search = "",
     genre = "",
     minPrice = "",
-    maxPrice = ""
+    maxPrice = "",
+    page = 1
 ) {
     const params = new URLSearchParams();
 
@@ -24,7 +26,7 @@ async function getEbooks(
     if (maxPrice) {
         params.set("maxPrice", maxPrice);
     }
-
+    params.set("page", page);
 
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/ebooks?${params.toString()}`,
@@ -47,13 +49,17 @@ const EbookPage = async ({ searchParams }) => {
     const genre = params.genre || "";
     const minPrice = params.minPrice || "";
     const maxPrice = params.maxPrice || "";
+    const page = Number(params.page || 1);
 
-    const ebooks = await getEbooks(
+    const data = await getEbooks(
         search,
         genre,
         minPrice,
-        maxPrice
+        maxPrice,
+        page
     );
+
+    console.log(data);
 
     return (
 
@@ -68,13 +74,18 @@ const EbookPage = async ({ searchParams }) => {
                     </h1>
 
                     <p className="text-lg py-2 font-semibold text-violet-900 dark:text-violet-400">
-                        Total E-books: {ebooks.length}
+                        Total E-books: {data.total}
                     </p>
 
                 </div>
 
                 <EbookSearch />
-                <EbookGrid ebooks={ebooks} />
+                <EbookGrid ebooks={data.ebooks} />
+
+                <EbookPagination
+                    currentPage={data.currentPage}
+                    totalPages={data.totalPages}
+                />
 
             </div>
 
