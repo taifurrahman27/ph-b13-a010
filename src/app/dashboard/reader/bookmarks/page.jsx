@@ -73,7 +73,7 @@ const ReaderBookmarkPage = async () => {
                         >
                             <div className="relative h-72">
 
-                                {/* <Image
+                                <Image
                                     src={
                                         ebook.coverImage ||
                                         "/placeholder-book.png"
@@ -81,7 +81,8 @@ const ReaderBookmarkPage = async () => {
                                     alt={ebook.title}
                                     fill
                                     className="object-cover"
-                                /> */}
+                                    unoptimized
+                                />
 
                             </div>
 

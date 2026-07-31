@@ -1,44 +1,91 @@
 import Link from "next/link";
 import {
     HiOutlineBookOpen,
-    HiOutlineBookmark,
     HiOutlineShoppingBag,
-    HiOutlineMagnifyingGlass,
+    HiOutlineCurrencyDollar,
     HiOutlineStar,
+    HiOutlineMagnifyingGlass,
     HiOutlineClock,
+    HiOutlineHeart,
 } from "react-icons/hi2";
 
-const stats = [
-    {
-        title: "Purchased Ebooks",
-        value: "18",
-        icon: HiOutlineBookOpen,
-        color: "bg-violet-100 text-violet-600",
-    },
-    {
-        title: "Bookmarks",
-        value: "12",
-        icon: HiOutlineBookmark,
-        color: "bg-yellow-100 text-yellow-600",
-    },
-    {
-        title: "Purchase History",
-        value: "24",
-        icon: HiOutlineShoppingBag,
-        color: "bg-green-100 text-green-600",
-    },
-    {
-        title: "Reading Progress",
-        value: "78%",
-        icon: HiOutlineStar,
-        color: "bg-blue-100 text-blue-600",
-    },
-];
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
-export default function ReaderDashboardPage() {
+const API_URL =
+    process.env.NEXT_PUBLIC_SERVER_URL ||
+    "http://localhost:5000";
+
+async function getReaderAnalytics(userId) {
+    const res = await fetch(
+        `${API_URL}/analytics/reader/${userId}`,
+        {
+            cache: "no-store",
+        }
+    );
+
+    if (!res.ok) {
+        throw new Error("Failed to load reader analytics");
+    }
+
+    return res.json();
+}
+
+export default async function ReaderDashboardPage() {
+
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    const analytics = await getReaderAnalytics(
+        session.user.id
+    );
+
+    console.log(analytics, "reader analytics");
+
+
+    const stats = [
+        {
+            title: "Purchased Ebooks",
+            value: analytics.stats.purchasedBooks,
+            icon: HiOutlineBookOpen,
+            iconBg:
+                "bg-violet-100 dark:bg-violet-500/20",
+            iconColor:
+                "text-violet-600 dark:text-violet-400",
+        },
+        {
+            title: "Purchases",
+            value: analytics.stats.purchases,
+            icon: HiOutlineShoppingBag,
+            iconBg:
+                "bg-green-100 dark:bg-green-500/20",
+            iconColor:
+                "text-green-600 dark:text-green-400",
+        },
+        {
+            title: "Total Spent",
+            value: `$${Number(analytics.stats.totalSpent || 0).toFixed(0)}`,
+            icon: HiOutlineCurrencyDollar,
+            iconBg:
+                "bg-sky-100 dark:bg-sky-500/20",
+            iconColor:
+                "text-sky-600 dark:text-sky-400",
+        },
+        {
+            title: "Reading Progress",
+            value: "0%",
+            icon: HiOutlineStar,
+            iconBg:
+                "bg-yellow-100 dark:bg-yellow-500/20",
+            iconColor:
+                "text-yellow-600 dark:text-yellow-400",
+        },
+    ];
+
     return (
-        <section className="space-y-8">
 
+        <section className="space-y-8">
             <div className="rounded-3xl bg-linear-to-r from-violet-600 to-purple-700 p-8 text-white shadow-lg">
 
                 <h1 className="text-3xl font-black">
@@ -46,46 +93,45 @@ export default function ReaderDashboardPage() {
                 </h1>
 
                 <p className="mt-2 max-w-2xl text-violet-100">
-                    Continue reading your favorite ebooks, manage your library,
-                    and discover new stories on Fable.
+                    Continue reading your favorite ebooks,
+                    manage your library, and discover new
+                    stories on Fable.
                 </p>
 
             </div>
 
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
 
-                {stats.map((item) => {
-                    const Icon = item.icon;
+                {stats.map((stat) => {
+                    const Icon = stat.icon;
 
                     return (
                         <div
-                            key={item.title}
-                            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+                            key={stat.title}
+                            className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900"
                         >
-                            <div className="flex items-center justify-between">
-
-                                <div>
-
-                                    <p className="text-sm text-slate-500">
-                                        {item.title}
-                                    </p>
-
-                                    <h2 className="mt-2 text-3xl font-black">
-                                        {item.value}
-                                    </h2>
-
-                                </div>
-
-                                <div className={`rounded-xl p-3 ${item.color}`}>
-                                    <Icon className="text-2xl" />
-                                </div>
-
+                            <div
+                                className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${stat.iconBg}`}
+                            >
+                                <Icon
+                                    className={`text-2xl ${stat.iconColor}`}
+                                />
                             </div>
+
+                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                                {stat.title}
+                            </p>
+
+                            <h2 className="mt-2 text-3xl font-black dark:text-white">
+                                {stat.value}
+                            </h2>
+
                         </div>
                     );
                 })}
 
             </div>
+
 
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
 
@@ -107,7 +153,7 @@ export default function ReaderDashboardPage() {
                             </h3>
 
                             <p className="text-sm text-slate-500">
-                                Discover new books
+                                Discover new ebooks
                             </p>
                         </div>
                     </Link>
@@ -130,23 +176,6 @@ export default function ReaderDashboardPage() {
                     </Link>
 
                     <Link
-                        href="/dashboard/reader/bookmarks"
-                        className="flex items-center gap-3 rounded-xl border p-5 transition hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-slate-800"
-                    >
-                        <HiOutlineBookmark className="text-3xl text-violet-600" />
-
-                        <div>
-                            <h3 className="font-semibold">
-                                Bookmarks
-                            </h3>
-
-                            <p className="text-sm text-slate-500">
-                                View saved ebooks
-                            </p>
-                        </div>
-                    </Link>
-
-                    <Link
                         href="/dashboard/reader/purchases"
                         className="flex items-center gap-3 rounded-xl border p-5 transition hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-slate-800"
                     >
@@ -158,7 +187,24 @@ export default function ReaderDashboardPage() {
                             </h3>
 
                             <p className="text-sm text-slate-500">
-                                View all purchases
+                                View your purchases
+                            </p>
+                        </div>
+                    </Link>
+
+                    <Link
+                        href="/dashboard/reader/profile"
+                        className="flex items-center gap-3 rounded-xl border p-5 transition hover:border-violet-600 hover:bg-violet-50 dark:hover:bg-slate-800"
+                    >
+                        <HiOutlineHeart className="text-3xl text-violet-600" />
+
+                        <div>
+                            <h3 className="font-semibold">
+                                My Profile
+                            </h3>
+
+                            <p className="text-sm text-slate-500">
+                                Manage account
                             </p>
                         </div>
                     </Link>
@@ -166,6 +212,7 @@ export default function ReaderDashboardPage() {
                 </div>
 
             </div>
+
 
             <div className="grid gap-6 lg:grid-cols-2">
 
@@ -176,7 +223,7 @@ export default function ReaderDashboardPage() {
                     </h2>
 
                     <div className="flex h-56 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 text-slate-500 dark:border-slate-700">
-                        Your recently opened ebooks will appear here.
+                        Continue reading feature coming soon.
                     </div>
 
                 </div>
@@ -185,17 +232,44 @@ export default function ReaderDashboardPage() {
 
                     <h2 className="mb-4 flex items-center gap-2 text-xl font-bold">
                         <HiOutlineClock />
-                        Recently Purchased
+                        Recent Purchases
                     </h2>
 
-                    <div className="flex h-56 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 text-slate-500 dark:border-slate-700">
-                        Your latest purchases will appear here.
+                    <div className="space-y-3">
+
+                        {analytics.recentPurchases.length === 0 ? (
+
+                            <div className="flex h-48 items-center justify-center rounded-xl border-2 border-dashed border-slate-300 text-slate-500 dark:border-slate-700">
+                                No purchases yet.
+                            </div>
+
+                        ) : (
+
+                            analytics.recentPurchases.map((purchase) => (
+                                <div
+                                    key={purchase._id}
+                                    className="flex items-center justify-between rounded-xl border p-4"
+                                >
+                                    <div>
+                                        <h3 className="font-semibold">
+                                            {purchase.ebookTitle}
+                                        </h3>
+
+                                        <p className="text-sm text-slate-500">
+                                            {new Date(
+                                                purchase.createdAt
+                                            ).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                    <span className="font-bold text-violet-600">
+                                        ${purchase.amount}
+                                    </span>
+                                </div>
+                            ))
+                        )}
                     </div>
-
                 </div>
-
             </div>
-
         </section>
     );
 }

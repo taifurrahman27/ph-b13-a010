@@ -148,7 +148,7 @@ export default async function WriterSalesPage() {
                                 >
 
                                     <td className="px-3 py-4 md:px-6">
-                                        <p className="font-semibold text-sm break-words">
+                                        <p className="font-semibold text-sm wrap-break-word">
                                             {sale.ebookTitle}
                                         </p>
                                     </td>

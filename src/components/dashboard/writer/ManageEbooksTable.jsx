@@ -106,7 +106,7 @@ export default function ManageEbooksTable({ ebooks }) {
 
                 <Link
                     href="/dashboard/writer/add-ebook"
-                    className="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-5 py-3 font-medium text-white transition hover:bg-violet-700"
+                    className="inline-flex items-center max-w-80 gap-2 rounded-xl bg-violet-600 px-5 py-3 font-medium text-white transition hover:bg-violet-700"
                 >
                     <HiOutlineDocumentPlus className="text-xl" />
                     Add New Ebook
@@ -116,156 +116,220 @@ export default function ManageEbooksTable({ ebooks }) {
 
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
 
-                <div className="overflow-x-auto">
+                <div className="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
 
-                    <table className="min-w-full">
+                    <div className="hidden lg:block">
+                        <table className="w-full">
+                            <thead className="bg-slate-50 dark:bg-slate-800">
+                                <tr className="text-left">
+                                    <th className="px-6 py-4">Cover</th>
+                                    <th className="px-6 py-4">Title</th>
+                                    <th className="px-6 py-4">Genre</th>
+                                    <th className="px-6 py-4">Price</th>
+                                    <th className="px-6 py-4">Status</th>
+                                    <th className="px-6 py-4 text-center">Actions</th>
 
-                        <thead className="bg-slate-50 dark:bg-slate-800">
+                                </tr>
 
-                            <tr className="text-left">
+                            </thead>
 
-                                <th className="px-6 py-4 font-semibold">
-                                    Cover
-                                </th>
+                            <tbody>
 
-                                <th className="px-6 py-4 font-semibold">
-                                    Title
-                                </th>
+                                {ebooks.length > 0 ? (
 
-                                <th className="px-6 py-4 font-semibold">
-                                    Genre
-                                </th>
+                                    ebooks.map((ebook) => (
 
-                                <th className="px-6 py-4 font-semibold">
-                                    Price
-                                </th>
+                                        <tr
+                                            key={ebook._id}
+                                            className="border-t border-slate-200 dark:border-slate-800"
+                                        >
 
-                                <th className="px-6 py-4 font-semibold">
-                                    Status
-                                </th>
+                                            <td className="px-6 py-4">
 
-                                <th className="px-6 py-4 font-semibold text-center">
-                                    Actions
-                                </th>
+                                                <Image
+                                                    src={ebook.coverImage}
+                                                    alt={ebook.title}
+                                                    width={48}
+                                                    height={64}
+                                                    className="h-16 w-12 rounded-lg object-cover"
+                                                    unoptimized
+                                                />
 
-                            </tr>
+                                            </td>
 
-                        </thead>
+                                            <td className="px-3 py-4 font-semibold">
+                                                {ebook.title}
+                                            </td>
 
-                        <tbody>
-                            {ebooks.length > 0 ? (
-                                ebooks.map((ebook) => (
+                                            <td className="px-2 py-4">
+                                                {ebook.genre}
+                                            </td>
 
-                                    <tr
-                                        key={ebook._id}
-                                        className="border-t border-slate-200 dark:border-slate-800"
-                                    >
+                                            <td className="px-4 py-4">
+                                                ${Number(ebook.price).toFixed(2)}
+                                            </td>
 
-                                        <td className="px-6 py-4">
+                                            <td className="px-6 py-4">
 
-                                            {/* <Image
-                                                src={ebook.coverImage || "/default-cover.jpg"}
-                                                alt={ebook.title}
-                                                width={48}
-                                                height={64}
-                                                className="h-16 w-12 rounded-lg object-cover"
-                                            /> */}
+                                                <span
+                                                    className={`rounded-full px-3 py-1 text-sm font-medium ${ebook.status === "Published"
+                                                        ? "bg-green-100 text-green-700"
+                                                        : "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200"
+                                                        }`}
+                                                >
+                                                    {ebook.status}
+                                                </span>
 
+                                            </td>
+
+                                            <td className="px-6 py-4">
+
+                                                <div className="flex justify-center gap-2">
+
+                                                    <Link
+                                                        href={`/dashboard/writer/edit-ebook/${ebook._id}`}
+                                                        className="rounded-lg bg-blue-100 p-2 text-blue-600 hover:bg-blue-200"
+                                                    >
+                                                        <HiOutlinePencilSquare className="text-xl" />
+                                                    </Link>
+
+                                                    <button
+                                                        onClick={() =>
+                                                            handleToggleStatus(
+                                                                ebook._id,
+                                                                ebook.status
+                                                            )
+                                                        }
+                                                        className={`rounded-lg p-2 ${ebook.status === "Published"
+                                                            ? "bg-yellow-100 text-yellow-600 hover:bg-yellow-200"
+                                                            : "bg-green-100 text-green-600 hover:bg-green-200"
+                                                            }`}
+                                                    >
+                                                        {ebook.status === "Published" ? (
+                                                            <HiOutlineEyeSlash className="text-xl" />
+                                                        ) : (
+                                                            <HiOutlineEye className="text-xl" />
+                                                        )}
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() =>
+                                                            handleDelete(ebook._id)
+                                                        }
+                                                        className="rounded-lg bg-red-100 p-2 text-red-600 hover:bg-red-200"
+                                                    >
+                                                        <HiOutlineTrash className="text-xl" />
+                                                    </button>
+
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    ))
+
+                                ) : (
+
+                                    <tr>
+
+                                        <td
+                                            colSpan={6}
+                                            className="py-16 text-center text-slate-500"
+                                        >
+                                            No ebooks found.
                                         </td>
 
+                                    </tr>
 
-                                        <td className="px-6 py-4 font-semibold">
-                                            {ebook.title}
-                                        </td>
+                                )}
 
+                            </tbody>
 
-                                        <td className="px-6 py-4">
-                                            {ebook.genre}
-                                        </td>
+                        </table>
 
+                    </div>
 
-                                        <td className="px-6 py-4">
-                                            ${Number(ebook.price).toFixed(2)}
-                                        </td>
+                    <div className="space-y-4 p-4 lg:hidden">
 
-
-                                        <td className="px-6 py-4">
+                        {ebooks.length > 0 ? (
+                            ebooks.map((ebook) => (
+                                <div
+                                    key={ebook._id}
+                                    className="rounded-xl border border-slate-200 p-4 dark:border-slate-700"
+                                >
+                                    <div className="flex gap-4">
+                                        <Image
+                                            src={ebook.coverImage}
+                                            alt={ebook.title}
+                                            width={70}
+                                            height={95}
+                                            className="rounded-lg object-cover"
+                                            unoptimized
+                                        />
+                                        <div className="flex-1">
+                                            <h3 className="font-bold">
+                                                {ebook.title}
+                                            </h3>
+                                            <p className="mt-1 text-sm text-slate-500">
+                                                {ebook.genre}
+                                            </p>
+                                            <p className="mt-1 font-semibold text-violet-600">
+                                                ${Number(ebook.price).toFixed(2)}
+                                            </p>
                                             <span
-                                                className={`rounded-full px-3 py-1 text-sm font-medium ${ebook.status === "Published"
+                                                className={`mt-2 inline-block rounded-full px-3 py-1 text-xs ${ebook.status === "Published"
                                                     ? "bg-green-100 text-green-700"
                                                     : "bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200"
                                                     }`}
                                             >
                                                 {ebook.status}
                                             </span>
-                                        </td>
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 flex justify-end gap-2">
+                                        <Link
+                                            href={`/dashboard/writer/edit-ebook/${ebook._id}`}
+                                            className="rounded-lg bg-blue-100 p-2 text-blue-600"
+                                        >
+                                            <HiOutlinePencilSquare />
+                                        </Link>
+                                        <button
+                                            onClick={() =>
+                                                handleToggleStatus(
+                                                    ebook._id,
+                                                    ebook.status
+                                                )
+                                            }
+                                            className={`rounded-lg p-2 ${ebook.status === "Published"
+                                                ? "bg-yellow-100 text-yellow-600"
+                                                : "bg-green-100 text-green-600"
+                                                }`}
+                                        >
+                                            {ebook.status === "Published" ? (
+                                                <HiOutlineEyeSlash />
+                                            ) : (
+                                                <HiOutlineEye />
+                                            )}
+                                        </button>
 
-
-                                        <td className="px-6 py-4">
-                                            <div className="flex justify-center gap-2">
-
-                                                <Link
-                                                    href={`/dashboard/writer/edit-ebook/${ebook._id}`}
-                                                    className="rounded-lg bg-blue-100 p-2 text-blue-600 transition hover:bg-blue-200"
-                                                    title="Edit"
-                                                >
-                                                    <HiOutlinePencilSquare className="text-xl" />
-                                                </Link>
-
-                                                <button
-                                                    className={`rounded-lg p-2 transition ${ebook.status === "Published"
-                                                        ? "bg-yellow-100 text-yellow-600 hover:bg-yellow-200"
-                                                        : "bg-green-100 text-green-600 hover:bg-green-200"
-                                                        }`}
-                                                    title={
-                                                        ebook.status === "Published"
-                                                            ? "Unpublish"
-                                                            : "Publish"
-                                                    }
-                                                    onClick={() =>
-                                                        handleToggleStatus(
-                                                            ebook._id,
-                                                            ebook.status
-                                                        )
-                                                    }
-                                                >
-                                                    {ebook.status === "Published" ? (
-                                                        <HiOutlineEyeSlash className="text-xl" />
-                                                    ) : (
-                                                        <HiOutlineEye className="text-xl" />
-                                                    )}
-                                                </button>
-
-                                                <button
-                                                    className="rounded-lg bg-red-100 p-2 text-red-600 transition hover:bg-red-200"
-                                                    title="Delete"
-                                                    onClick={() => handleDelete(ebook._id)}
-                                                >
-                                                    <HiOutlineTrash className="text-xl" />
-                                                </button>
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td
-                                        colSpan={6}
-                                        className="py-16 text-center text-slate-500"
-                                    >
-                                        No ebooks found.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-
-                    </table>
-
+                                        <button
+                                            onClick={() => handleDelete(ebook._id)}
+                                            className="rounded-lg bg-red-100 p-2 text-red-600"
+                                        >
+                                            <HiOutlineTrash />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="py-12 text-center text-slate-500">
+                                No ebooks found.
+                            </div>
+                        )}
+                    </div>
                 </div>
-
             </div>
-
 
             <div className="hidden rounded-2xl border-2 border-dashed border-slate-300 bg-white py-16 text-center dark:border-slate-700 dark:bg-slate-900">
 
