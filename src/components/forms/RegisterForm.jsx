@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FiLoader } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
+import { uploadImage } from "@/lib/uploadImage";
 
 
 const RegisterForm = () => {
@@ -14,6 +15,7 @@ const RegisterForm = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [googleLoading, setGoogleLoading] = useState(false);
+    const [image, setImage] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -24,8 +26,8 @@ const RegisterForm = () => {
         const email = formData.get("email");
         const password = formData.get("password");
         const confirmPassword = formData.get("confirmPassword");
+        const imageUrl = await uploadImage(image);
         const role = formData.get("role");
-        const image = formData.get("image");
 
 
         if (password !== confirmPassword) {
@@ -40,7 +42,7 @@ const RegisterForm = () => {
                 name,
                 email,
                 password,
-                image,
+                image: imageUrl,
                 role,
             });
 
@@ -130,13 +132,15 @@ const RegisterForm = () => {
 
                 <div>
                     <label className="mb-2 block text-sm font-semibold">
-                        Photo URL
+                        Photo
                     </label>
 
                     <input
-                        name="image"
-                        type="url"
-                        placeholder="https://example.com/photo.jpg"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImage(e.target.files[0])}
+                        required
+                        placeholder="Choose Photo "
                         className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-violet-600 dark:border-slate-700 dark:bg-slate-950"
                     />
                 </div>

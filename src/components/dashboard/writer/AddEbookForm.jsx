@@ -5,6 +5,7 @@ import { Button } from "@heroui/react";
 import { toast } from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import ImageUploader from "@/components/shared/ImageUploader";
 
 const genres = [
     "Programming",
@@ -38,9 +39,10 @@ export default function AddEbookForm({
     ebook = null,
 }) {
     const [loading, setLoading] = useState(false);
-
     const { data: session } = authClient.useSession();
-
+    const [coverImage, setCoverImage] = useState(
+        ebook?.coverImage || ""
+    );
     const [formData, setFormData] = useState({
         title: ebook?.title || "",
         slug: ebook?.slug || "",
@@ -94,6 +96,7 @@ export default function AddEbookForm({
 
         const ebookData = {
             ...formData,
+            coverImage,
             price: Number(formData.price),
             pages: Number(formData.pages),
 
@@ -124,7 +127,26 @@ export default function AddEbookForm({
                 body: JSON.stringify(ebookData),
             });
 
+            if (!coverImage) {
+                toast.error("Please upload a cover image.");
+                return;
+            }
+
+            if (!formData.fileUrl) {
+                toast.error("Please provide your ebook PDF.");
+                return;
+            }
+
             const data = await res.json();
+            if (!coverImage) {
+                toast.error("Please upload a cover image.");
+                return;
+            }
+
+            if (!formData.fileUrl) {
+                toast.error("Please provide your ebook PDF.");
+                return;
+            }
 
             if (!res.ok) {
                 throw new Error(data.message);
@@ -203,7 +225,7 @@ export default function AddEbookForm({
                             required
                             value={formData.slug}
                             onChange={handleChange}
-                            className="w-full rounded-xl border border-slate-300 bg-slate-100 px-4 py-3 outline-none"
+                            className="w-full rounded-xl border border-slate-300 bg-slate-200 px-4 py-3 outline-none dark:bg-slate-500"
                         />
                     </div>
 
@@ -217,7 +239,7 @@ export default function AddEbookForm({
                             required
                             value={formData.genre}
                             onChange={handleChange}
-                            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-violet-600"
+                            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-violet-600 dark:text-slate-100 dark:bg-slate-500"
                         >
                             <option value="">
                                 Select Genre
@@ -243,7 +265,7 @@ export default function AddEbookForm({
                             name="language"
                             value={formData.language}
                             onChange={handleChange}
-                            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-violet-600"
+                            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-violet-600 dark:text-slate-100 dark:bg-slate-500"
                         >
                             {languages.map((language) => (
                                 <option
@@ -263,6 +285,7 @@ export default function AddEbookForm({
 
                         <input
                             type="number"
+                            step="0.01"
                             name="price"
                             min="1"
                             required
@@ -305,20 +328,14 @@ export default function AddEbookForm({
 
                     <div className="space-y-6 lg:col-span-2">
 
-                        <div>
-                            <label className="mb-2 block text-sm font-semibold">
-                                Cover Image URL
-                            </label>
+                        <div className="rounded-2xl border border-violet-200 bg-linear-to-br from-violet-50 to-white p-1 shadow-sm dark:border-violet-500/30 dark:from-slate-900 dark:to-slate-950">
 
-                            <input
-                                type="url"
-                                name="coverImage"
-                                required
-                                value={formData.coverImage}
-                                onChange={handleChange}
-                                placeholder="https://i.ibb.co/..."
-                                className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-violet-600"
+                            <ImageUploader
+                                label="Ebook Cover"
+                                value={coverImage}
+                                onUpload={setCoverImage}
                             />
+
                         </div>
 
                         <div>
@@ -369,6 +386,7 @@ export default function AddEbookForm({
                     type="button"
                     variant="secondary"
                     size="lg"
+                    onPress={() => router.back()}
                 >
                     Cancel
                 </Button>
@@ -389,3 +407,4 @@ export default function AddEbookForm({
         </form>
     );
 }
+
