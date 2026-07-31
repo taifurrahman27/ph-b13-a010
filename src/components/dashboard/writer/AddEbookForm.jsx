@@ -6,23 +6,8 @@ import { toast } from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import ImageUploader from "@/components/shared/ImageUploader";
+import { GENRES } from "@/constants/genres";
 
-const genres = [
-    "Programming",
-    "Web Development",
-    "Technology",
-    "Business",
-    "Self Help",
-    "Education",
-    "Science Fiction",
-    "Fantasy",
-    "Mystery",
-    "Romance",
-    "History",
-    "Biography",
-    "Health",
-    "Fiction",
-];
 
 
 const languages = [
@@ -241,15 +226,10 @@ export default function AddEbookForm({
                             onChange={handleChange}
                             className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:border-violet-600 dark:text-slate-100 dark:bg-slate-500"
                         >
-                            <option value="">
-                                Select Genre
-                            </option>
+                            <option value="">All Genres</option>
 
-                            {genres.map((genre) => (
-                                <option
-                                    key={genre}
-                                    value={genre}
-                                >
+                            {GENRES.map((genre) => (
+                                <option key={genre} value={genre}>
                                     {genre}
                                 </option>
                             ))}
