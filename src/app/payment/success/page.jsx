@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HiArrowRight, HiCheckCircle, HiEnvelope } from "react-icons/hi2";
 import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { sendEmail } from "@/lib/sendEmail";
 
 export default async function Success({ searchParams }) {
 
@@ -117,6 +118,125 @@ export default async function Success({ searchParams }) {
                 },
             }
         );
+
+
+        try {
+            await sendEmail({
+                to: customerEmail,
+                subject: "📚 Your Fable Purchase is Confirmed",
+                html:
+                    `
+            <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+</head>
+<body style="margin:0;padding:0;background:#f5f3ff;font-family:Arial,Helvetica,sans-serif;">
+
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center" style="padding:40px 20px;">
+
+                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08);">
+
+                    <tr>
+                        <td align="center" style="background:#6d28d9;padding:30px;">
+                            <h1 style="margin:0;color:#fff;font-size:34px;">
+                                📚 Fable
+                            </h1>
+
+                            <p style="margin:8px 0 0;color:#ede9fe;">
+                                Your reading journey begins here
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding:40px;">
+
+                            <h2 style="margin-top:0;color:#111827;">
+                                🎉 Purchase Successful
+                            </h2>
+
+                            <p style="font-size:16px;color:#374151;">
+                                Hi <strong>Rae Roth</strong>,
+                            </p>
+
+                            <p style="font-size:16px;color:#374151;line-height:1.8;">
+                                Thank you for purchasing
+                                <strong>Love in Autumn</strong>.
+                                Your payment has been received successfully.
+                            </p>
+
+                            <table width="100%" cellpadding="12" cellspacing="0" style="margin:30px 0;background:#faf5ff;border:1px solid #ddd6fe;border-radius:12px;">
+                                <tr>
+                                    <td><strong>Ebook</strong></td>
+                                    <td align="right">Love in Autumn</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Amount Paid</strong></td>
+                                    <td align="right">$10.99</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Status</strong></td>
+                                    <td align="right" style="color:#16a34a;font-weight:bold;">
+                                        Paid ✔
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div style="text-align:center;margin:35px 0;">
+                                <a
+                                    href="http://localhost:3000/dashboard/reader/library"
+                                    style="
+                                        background:#6d28d9;
+                                        color:#fff;
+                                        text-decoration:none;
+                                        padding:14px 30px;
+                                        border-radius:10px;
+                                        display:inline-block;
+                                        font-weight:bold;
+                                    "
+                                >
+                                    Start Reading →
+                                </a>
+                            </div>
+
+                            <p style="font-size:15px;color:#6b7280;line-height:1.7;">
+                                Your ebook is now available in your
+                                <strong>Library</strong>.
+                                We hope you enjoy reading on <strong>Fable</strong>.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" style="background:#f8fafc;padding:24px;color:#6b7280;font-size:14px;">
+                            © 2026 <strong>Fable</strong><br>
+                            Happy Reading 📖
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
+`
+                ,
+            });
+        } catch (error) {
+            console.error("Email failed:", error);
+        }
+
+
+        console.log(`Confirmation email is prepared for ${customerEmail}.`);
     }
 
     console.log("Purchase saved successfully");

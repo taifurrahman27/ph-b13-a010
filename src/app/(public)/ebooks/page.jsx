@@ -59,8 +59,6 @@ const EbookPage = async ({ searchParams }) => {
         page
     );
 
-    console.log(data);
-
     return (
 
         <section className="min-h-screen bg-slate-50 py-10 dark:bg-slate-950">
