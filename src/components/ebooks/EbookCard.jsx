@@ -10,13 +10,19 @@ const EbookCard = ({ ebook }) => {
             <Link href={`/ebooks/${ebook._id}`}>
                 <div className="relative h-80 w-full overflow-hidden">
                     <div className="relative h-72 w-full overflow-hidden rounded-xl">
+
                         <Image
                             src={ebook.coverImage}
                             alt={ebook.title}
                             fill
-                            sizes="(max-width: 768px) 100vw, 300px"
-                            className="object-cover"
+                            className="h-120 w-80 object-cover"
                         />
+                        {ebook.featured && (
+                            <span className="absolute left-3 top-3 rounded-full bg-violet-600 px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-200 shadow-lg">
+                                ★ FEATURED
+                            </span>
+                        )}
+
                     </div>
 
                 </div>
@@ -34,14 +40,14 @@ const EbookCard = ({ ebook }) => {
                     </h2>
                 </Link>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 relative">
 
                     <Image
                         src={ebook.writer.photo || "/placeholder.png"}
                         alt={ebook.writer.name}
                         height={60}
-                        width={80}
-
+                        width={60}
+                        className="h-10 w-10 rounded-full object-cover"
                     />
                     <div>
                         <Link
