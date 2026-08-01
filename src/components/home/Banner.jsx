@@ -14,6 +14,7 @@ import {
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import FadeUp from "../animations/FadeUp";
 
 const slides = [
     {
@@ -84,22 +85,28 @@ const Banner = () => {
 
                                     <div className="max-w-3xl">
 
-                                        <h1 className="mb-6 text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-7xl">
-                                            {slide.title}
-                                        </h1>
+                                        <FadeUp once={false}>
+                                            <h1 className="mb-6 text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-7xl">
+                                                {slide.title}
+                                            </h1>
+                                        </FadeUp>
 
-                                        <p className="mb-8 text-lg leading-8 text-slate-200 md:text-xl">
-                                            {slide.description}
-                                        </p>
+                                        <FadeUp delay={0.2} once={false}>
+                                            <p className="mb-8 text-lg leading-8 text-slate-200 md:text-xl">
+                                                {slide.description}
+                                            </p>
+                                        </FadeUp>
 
-                                        <Link href={slide.link}>
-                                            <Button
-                                                size="lg"
-                                                className="rounded-none bg-violet-600 px-8 text-white hover:bg-violet-700"
-                                            >
-                                                {slide.button}
-                                            </Button>
-                                        </Link>
+                                        <FadeUp delay={0.4} once={false}>
+                                            <Link href={slide.link}>
+                                                <Button
+                                                    size="lg"
+                                                    className="rounded-none bg-violet-600 px-8 text-white hover:bg-violet-700"
+                                                >
+                                                    {slide.button}
+                                                </Button>
+                                            </Link>
+                                        </FadeUp>
 
                                     </div>
 

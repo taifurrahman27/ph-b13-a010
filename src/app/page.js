@@ -1,6 +1,6 @@
 import Banner from "@/components/home/Banner";
 import FeaturedEbooks from "@/components/home/FeaturedEbooks";
-import FeaturedEbooksSkeleton from "@/components/home/src/components/skeletons/FeaturedEbooksSkeleton";
+import FeaturedEbooksSkeleton from "@/components/home/FeaturedEbooksSkeleton";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import { Suspense } from "react";
