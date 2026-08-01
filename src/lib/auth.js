@@ -6,12 +6,20 @@ const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db("fable");
 
 export const auth = betterAuth({
+
+    baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
     database: mongodbAdapter(db, {
         client,
     }),
 
     emailAndPassword: {
         enabled: true,
+    },
+    socialProviders: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        },
     },
 
     user: {

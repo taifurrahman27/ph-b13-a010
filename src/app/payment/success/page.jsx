@@ -159,24 +159,24 @@ export default async function Success({ searchParams }) {
                             </h2>
 
                             <p style="font-size:16px;color:#374151;">
-                                Hi <strong>Rae Roth</strong>,
+                              Hi <strong>${customer_details?.name || "Reader"}</strong>
                             </p>
 
                             <p style="font-size:16px;color:#374151;line-height:1.8;">
                                 Thank you for purchasing
-                                <strong>Love in Autumn</strong>.
+                                <strong>${ebook.title}</strong>.
                                 Your payment has been received successfully.
                             </p>
 
                             <table width="100%" cellpadding="12" cellspacing="0" style="margin:30px 0;background:#faf5ff;border:1px solid #ddd6fe;border-radius:12px;">
                                 <tr>
                                     <td><strong>Ebook</strong></td>
-                                    <td align="right">Love in Autumn</td>
+                                    <td align="right">${ebook.title}</td>
                                 </tr>
 
                                 <tr>
                                     <td><strong>Amount Paid</strong></td>
-                                    <td align="right">$10.99</td>
+                                    <td align="right">$${purchaseData.amount.toFixed(2)}</td>
                                 </tr>
 
                                 <tr>
@@ -189,7 +189,7 @@ export default async function Success({ searchParams }) {
 
                             <div style="text-align:center;margin:35px 0;">
                                 <a
-                                    href="http://localhost:3000/dashboard/reader/library"
+                                    href="${process.env.NEXT_PUBLIC_BETTER_AUTH_URL}/dashboard/reader/library"
                                     style="
                                         background:#6d28d9;
                                         color:#fff;

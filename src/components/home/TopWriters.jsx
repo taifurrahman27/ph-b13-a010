@@ -30,7 +30,7 @@ export default async function TopWriters() {
     ];
 
     return (
-        <section className="bg-slate-50 py-16 dark:bg-slate-950">
+        <section className="max-w-7xl mx-auto bg-slate-50 py-16 dark:bg-slate-950">
             <div className="container mx-auto px-4">
 
                 <FadeUp>

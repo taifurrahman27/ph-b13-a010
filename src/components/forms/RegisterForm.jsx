@@ -4,17 +4,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
 import { FiLoader } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
 import { uploadImage } from "@/lib/uploadImage";
+import GoogleLoginButton from "../auth/GoogleLoginButton";
 
 
 const RegisterForm = () => {
     const router = useRouter();
 
     const [isLoading, setIsLoading] = useState(false);
-    const [googleLoading, setGoogleLoading] = useState(false);
     const [image, setImage] = useState(null);
 
     const handleSubmit = async (e) => {
@@ -68,19 +67,7 @@ const RegisterForm = () => {
         }
     };
 
-    const handleGoogleSignUp = async () => {
-        setGoogleLoading(true);
 
-        try {
-            await authClient.signIn.social({
-                provider: "google",
-                callbackURL: "/",
-            });
-        } catch (error) {
-            toast.error("Google sign up failed");
-            setGoogleLoading(false);
-        }
-    };
 
     return (
         <div className="w-full border border-slate-200 bg-white p-8 shadow-xl dark:border-slate-800 dark:bg-slate-900">
@@ -224,23 +211,7 @@ const RegisterForm = () => {
 
             </div>
 
-            <button
-                onClick={handleGoogleSignUp}
-                disabled={googleLoading}
-                className="flex w-full items-center justify-center gap-3 rounded-2xl border border-slate-300 bg-white px-4 py-3 font-semibold text-slate-700 transition hover:bg-slate-50 disabled:opacity-70 dark:border-slate-700 dark:bg-slate-950 dark:text-white dark:hover:bg-slate-800"
-            >
-                {googleLoading ? (
-                    <>
-                        <FiLoader className="animate-spin" />
-                        Connecting...
-                    </>
-                ) : (
-                    <>
-                        <FcGoogle className="text-2xl" />
-                        Continue with Google
-                    </>
-                )}
-            </button>
+            <GoogleLoginButton />
 
             <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400">
                 Already have an account?{" "}
