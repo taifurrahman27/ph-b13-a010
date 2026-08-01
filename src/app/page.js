@@ -1,6 +1,8 @@
 import Banner from "@/components/home/Banner";
 import FeaturedEbooks from "@/components/home/FeaturedEbooks";
 import FeaturedEbooksSkeleton from "@/components/home/FeaturedEbooksSkeleton";
+import GenreSection from "@/components/home/GenreSection";
+import TopWriters from "@/components/home/TopWriters";
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import { Suspense } from "react";
@@ -11,9 +13,13 @@ export default function Home() {
     <div>
       <Navbar />
       <Banner />
+
       <Suspense fallback={<FeaturedEbooksSkeleton />}>
         <FeaturedEbooks />
       </Suspense>
+
+      <TopWriters />
+      <GenreSection />
       <Footer />
 
     </div>
