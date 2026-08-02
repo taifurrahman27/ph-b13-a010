@@ -180,13 +180,9 @@ const EbookDetailsPage = async ({ params }) => {
                                 </span>
                             </div>
 
-
                         </div>
 
-
-
                         <div className="mt-10 flex flex-wrap gap-4">
-
 
                             {purchased ? (
 
@@ -208,9 +204,7 @@ const EbookDetailsPage = async ({ params }) => {
 
                             )}
 
-
                             <BookmarkButton ebookId={ebook._id.toString()} />
-
 
                         </div>
 

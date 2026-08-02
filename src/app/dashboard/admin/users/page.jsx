@@ -62,9 +62,9 @@ export default async function UserManagePage() {
                                     <Image
                                         src={user.image}
                                         alt={user.name}
-                                        width={56}
-                                        height={56}
-                                        className="rounded-full"
+                                        width={60}
+                                        height={60}
+                                        className="h-16 w-16 object-cover rounded-full"
 
                                     />
                                 ) : (
@@ -176,9 +176,9 @@ export default async function UserManagePage() {
                                                 <Image
                                                     src={user.image}
                                                     alt={user.name}
-                                                    width={56}
-                                                    height={56}
-                                                    className="rounded-full"
+                                                    width={60}
+                                                    height={60}
+                                                    className="h-16 w-16 object-cover rounded-full"
 
                                                 />
                                             ) : (

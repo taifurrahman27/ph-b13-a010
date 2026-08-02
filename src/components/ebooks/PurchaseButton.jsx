@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function PurchaseButton({
@@ -9,12 +10,16 @@ export default function PurchaseButton({
     disabled = false,
 }) {
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const handlePurchase = async () => {
         if (disabled || loading) return;
 
         if (!userId) {
             toast.error("Please login first.");
+            setTimeout(() => {
+                router.push("/login");
+            }, 800);
             return;
         }
 
@@ -35,7 +40,9 @@ export default function PurchaseButton({
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(data.message || "Unable to create checkout session.");
+                throw new Error(
+                    data.message || "Unable to create checkout session."
+                );
             }
 
             if (!data.url) {

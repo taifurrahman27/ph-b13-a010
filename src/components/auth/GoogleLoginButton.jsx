@@ -2,6 +2,7 @@
 
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { FiLoader } from "react-icons/fi";
 
