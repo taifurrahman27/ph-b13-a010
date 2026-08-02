@@ -6,6 +6,10 @@ export default async function EditEbookPage({ params }) {
     const res = await fetch(
         `http://localhost:5000/ebooks/${id}`,
         {
+
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
             cache: "no-store",
         }
     );

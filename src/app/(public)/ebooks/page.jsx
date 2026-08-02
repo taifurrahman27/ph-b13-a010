@@ -61,6 +61,7 @@ const EbookPage = async ({ searchParams }) => {
 
     return (
 
+
         <section className="min-h-screen bg-slate-50 py-10 dark:bg-slate-950">
 
             <div className="container mx-auto px-4">

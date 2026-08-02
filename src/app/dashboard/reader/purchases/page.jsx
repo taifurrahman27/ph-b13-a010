@@ -7,6 +7,9 @@ async function getPurchaseHistory(userId) {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/purchases/${userId}`,
         {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
             cache: "no-store",
         }
     );

@@ -48,6 +48,9 @@ export default function DeleteEbookButton({ id }) {
                 `${API_URL}/ebooks/${id}`,
                 {
                     method: "DELETE",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
             );
 

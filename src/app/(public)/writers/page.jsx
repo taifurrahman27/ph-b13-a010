@@ -10,6 +10,7 @@ const WritersPage = async () => {
 
     const writers = await res.json();
 
+
     return (
         <section className="min-h-screen bg-slate-50 py-16 dark:bg-slate-950">
             <div className="container mx-auto px-4">

@@ -104,9 +104,13 @@ export default function AddEbookForm({
                     ? "PATCH"
                     : "POST";
 
+            const { data: tokenData } = await authClient.getToken();
+
+            const token = tokenData.token;
             const res = await fetch(endpoint, {
                 method,
                 headers: {
+                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(ebookData),
