@@ -44,12 +44,13 @@ export default function DeleteEbookButton({ id }) {
 
         try {
 
+            const { data: tokenData } = await authClient.token();
             const res = await fetch(
                 `${API_URL}/ebooks/${id}`,
                 {
                     method: "DELETE",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        "Authorization": `Bearer ${tokenData.token}`
                     },
                 }
             );

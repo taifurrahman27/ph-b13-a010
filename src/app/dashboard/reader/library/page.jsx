@@ -7,6 +7,7 @@ import {
     HiOutlineStar,
     HiOutlineCalendarDays,
 } from "react-icons/hi2";
+import { getTokenServer } from "@/lib/getTokenServer";
 
 export default async function PurchasedEbookPage() {
 
@@ -16,14 +17,21 @@ export default async function PurchasedEbookPage() {
 
     const user = session?.user;
 
+    const token = await getTokenServer();
+
     const purchasedEbooks = user
         ? await fetch(
             `${process.env.NEXT_PUBLIC_SERVER_URL}/purchases/${user.id}`,
             {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
                 cache: "no-store",
             }
         ).then((res) => res.json())
         : [];
+    console.log(purchasedEbooks, "purchased ebooks from libray of reader");
+
 
     return (
         <section className="space-y-8">

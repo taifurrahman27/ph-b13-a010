@@ -36,10 +36,12 @@ export default function ChangeRoleSelect({ id, currentRole }) {
         }
 
         try {
+            const { data: tokenData } = await authClient.token();
             const res = await fetch(`${API_URL}/users/${id}/role`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${tokenData.token}`
                 },
                 body: JSON.stringify({ role }),
             });

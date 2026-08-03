@@ -31,8 +31,12 @@ export default function DeleteUserButton({ id }) {
         if (!result.isConfirmed) return;
 
         try {
+            const { data: tokenData } = await authClient.token();
             const res = await fetch(`${API_URL}/users/${id}`, {
                 method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${tokenData.token}`
+                }
             });
 
             const data = await res.json();

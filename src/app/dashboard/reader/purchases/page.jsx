@@ -1,9 +1,12 @@
 import { auth } from "@/lib/auth";
+import { getTokenServer } from "@/lib/getTokenServer";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { HiOutlineReceiptRefund } from "react-icons/hi2";
 
 async function getPurchaseHistory(userId) {
+
+    const token = await getTokenServer();
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/purchases/${userId}`,
         {

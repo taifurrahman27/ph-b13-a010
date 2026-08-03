@@ -1,10 +1,11 @@
 import EditEbookForm from "@/components/dashboard/writer/EditEbookForm";
+import { getTokenServer } from "@/lib/getTokenServer";
 
 export default async function EditEbookPage({ params }) {
     const { id } = await params;
-
+    const token = await getTokenServer();
     const res = await fetch(
-        `http://localhost:5000/ebooks/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/ebooks/${id}`,
         {
 
             headers: {

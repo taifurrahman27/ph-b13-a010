@@ -94,6 +94,8 @@ export default function AddEbookForm({
         };
 
         try {
+
+            const { data: tokenData } = await authClient.token();
             const endpoint =
                 mode === "edit"
                     ? `http://localhost:5000/ebooks/${ebook._id}`
@@ -104,14 +106,12 @@ export default function AddEbookForm({
                     ? "PATCH"
                     : "POST";
 
-            const { data: tokenData } = await authClient.getToken();
 
-            const token = tokenData.token;
             const res = await fetch(endpoint, {
                 method,
                 headers: {
-                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${tokenData.token}`
                 },
                 body: JSON.stringify(ebookData),
             });

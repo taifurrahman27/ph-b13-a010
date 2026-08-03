@@ -57,11 +57,15 @@ export default function BookmarkButton({ ebookId }) {
         setLoading(true);
 
         try {
+            const { data: tokenData } = await authClient.token();
+
+            console.log(tokenData, "token data from book mark button");
 
             const res = await fetch(`${API_URL}/bookmarks`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Authorization": `Bearer ${tokenData.token}`
                 },
                 body: JSON.stringify({
                     userId: session.user.id,
