@@ -7,6 +7,9 @@ import {
     HiOutlineStar,
     HiOutlineCalendarDays,
 } from "react-icons/hi2";
+export const metadata = {
+    title: "My Library",
+};
 
 export default async function PurchasedEbookPage() {
 

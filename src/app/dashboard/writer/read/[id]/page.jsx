@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { HiOutlineBookOpen, HiOutlineSparkles } from "react-icons/hi2";
+export const metadata = {
+    title: "Read Ebook",
+};
 
 const ReadEbookPage = () => {
     return (

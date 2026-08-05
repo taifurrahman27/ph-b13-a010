@@ -6,16 +6,26 @@ import {
     HiOutlineBookOpen,
     HiOutlineArrowRight,
 } from "react-icons/hi2";
+import { getTokenServer } from "@/lib/getTokenServer";
+
+export const metadata = {
+    title: "Admin Library",
+};
 
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL ||
     "http://localhost:5000";
 
 async function getPurchasedBooks(userId) {
+    const token = await getTokenServer();
+
     const res = await fetch(
         `${API_URL}/purchases/${userId}`,
         {
             cache: "no-store",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
         }
     );
 

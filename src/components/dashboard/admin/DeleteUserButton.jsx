@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { HiOutlineTrash } from "react-icons/hi2";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";

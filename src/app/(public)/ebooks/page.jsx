@@ -2,6 +2,13 @@ import EbookGrid from "@/components/ebooks/EbookGrid";
 import EbookPagination from "@/components/ebooks/EbookPagination";
 import EbookSearch from "@/components/ebooks/EbookSearch";
 
+
+
+export const metadata = {
+    title: "Browse Ebooks",
+};
+
+
 async function getEbooks(
     search = "",
     genre = "",

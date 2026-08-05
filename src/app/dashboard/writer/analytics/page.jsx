@@ -8,6 +8,10 @@ import {
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
+export const metadata = {
+    title: "Writer Analytics",
+};
+
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL ||
     "http://localhost:5000";

@@ -1,4 +1,7 @@
 import { HiOutlineBookOpen } from "react-icons/hi2";
+export const metadata = {
+    title: "Loading...",
+};
 
 export default function Loading() {
     return (

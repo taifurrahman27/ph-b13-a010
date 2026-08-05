@@ -9,6 +9,10 @@ import {
 } from "react-icons/hi2";
 import { getTokenServer } from "@/lib/getTokenServer";
 
+export const metadata = {
+    title: "My Library",
+};
+
 export default async function PurchasedEbookPage() {
 
     const session = await auth.api.getSession({
@@ -30,7 +34,6 @@ export default async function PurchasedEbookPage() {
             }
         ).then((res) => res.json())
         : [];
-    console.log(purchasedEbooks, "purchased ebooks from libray of reader");
 
 
     return (

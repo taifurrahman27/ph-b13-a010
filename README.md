@@ -1,36 +1,189 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📚 Fable – Ebook Sharing Platform
 
-## Getting Started
+Fable is a full-stack ebook sharing platform where readers can discover, purchase, and manage ebooks, while writers can publish and manage their own content after completing a one-time verification payment. An admin dashboard provides complete control over users, ebooks, and transactions.
 
-First, run the development server:
+## 🌐 Live Demo
+
+* **Client:** https://ph-b13-a010.vercel.app
+* **Server:** https://ph-b13-a010-server.vercel.app
+
+---
+
+## 🎯 Project Purpose
+
+Fable aims to connect readers and writers through a secure and user-friendly ebook marketplace. The platform provides role-based dashboards, secure authentication, online payments, analytics, and ebook management to deliver a seamless digital reading experience.
+
+---
+
+## ✨ Key Features
+
+* Secure authentication using Better Auth
+* Email/Password and Google Sign-In
+* JWT-based authorization
+* Role-based access (Reader, Writer, Admin)
+* Browse and search ebooks
+* Ebook details page
+* Purchase ebooks using Stripe Checkout
+* Reader purchase history
+* Bookmark favorite ebooks
+* Writer dashboard for managing ebooks
+* Admin dashboard for user and ebook management
+* Analytics dashboard
+* Image upload with ImgBB
+* Responsive design for desktop, tablet, and mobile
+* Protected routes and secure API endpoints
+
+---
+
+## 🛠️ Technologies Used
+
+### Frontend
+
+* Next.js (App Router)
+* React
+* Tailwind CSS
+* HeroUI
+* React Icons
+* React Hot Toast
+
+### Backend
+
+* Node.js
+* Express.js
+* MongoDB
+* Better Auth
+* JOSE (JWT Verification)
+
+### Payment
+
+* Stripe
+
+### Image Hosting
+
+* ImgBB API
+
+### Deployment
+
+* Vercel (Frontend)
+* Vercel (Backend)
+
+---
+
+## 📦 NPM Packages Used
+
+### Frontend
+
+```bash
+next
+react
+react-dom
+tailwindcss
+@heroui/react
+better-auth
+react-hot-toast
+react-icons
+```
+
+### Backend
+
+```bash
+express
+mongodb
+better-auth
+@better-auth/mongodb
+jose
+cors
+dotenv
+stripe
+```
+
+---
+
+## ⚙️ Installation
+
+### Clone the repository
+
+```bash
+git clone <your-client-repository-url>
+```
+
+```bash
+cd <project-folder>
+```
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Configure environment variables
+
+Create a `.env.local` (frontend) and `.env` (backend) file with the required environment variables.
+
+Example:
+
+```env
+NEXT_PUBLIC_SERVER_URL=your_server_url
+BETTER_AUTH_SECRET=your_secret
+MONGODB_URI=your_mongodb_uri
+STRIPE_SECRET_KEY=your_stripe_secret
+IMGBB_API_KEY=your_imgbb_key
+```
+
+### Start the development server
+
+Frontend
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Backend
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📂 User Roles
 
-To learn more about Next.js, take a look at the following resources:
+### Reader
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+* Browse ebooks
+* Purchase ebooks
+* Bookmark ebooks
+* View purchase history
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Writer
 
-## Deploy on Vercel
+* Upload ebooks
+* Edit ebooks
+* Delete ebooks
+* View analytics
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Admin
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* Manage users
+* Manage ebooks
+* View platform statistics
+* Monitor transactions
+
+---
+
+## 🔒 Authentication
+
+* Email & Password Login
+* Google OAuth Login
+* JWT Authentication
+* Protected Routes
+* Role-Based Authorization
+
+---
+
+## 👨‍💻 Author
+
+**Taifur Rahman**
+
+TR TECH

@@ -1,6 +1,11 @@
 import EditEbookForm from "@/components/dashboard/writer/EditEbookForm";
 import { getTokenServer } from "@/lib/getTokenServer";
 
+
+export const metadata = {
+    title: "Edit Ebook",
+};
+
 export default async function EditEbookPage({ params }) {
     const { id } = await params;
     const token = await getTokenServer();

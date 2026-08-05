@@ -59,8 +59,6 @@ export default function BookmarkButton({ ebookId }) {
         try {
             const { data: tokenData } = await authClient.token();
 
-            console.log(tokenData, "token data from book mark button");
-
             const res = await fetch(`${API_URL}/bookmarks`, {
                 method: "POST",
                 headers: {

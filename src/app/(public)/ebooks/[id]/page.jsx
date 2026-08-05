@@ -8,6 +8,11 @@ import clientPromise from "@/lib/mongodb";
 import Image from "next/image";
 
 
+export const metadata = {
+    title: "Ebook Details",
+};
+
+
 async function getEbook(id) {
 
     const res = await fetch(

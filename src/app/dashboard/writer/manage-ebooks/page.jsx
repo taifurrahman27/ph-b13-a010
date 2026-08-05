@@ -1,6 +1,9 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import ManageEbooksTable from "@/components/dashboard/writer/ManageEbooksTable";
+export const metadata = {
+    title: "Manage Ebooks",
+};
 
 export default async function ManageEbookPage() {
     const session = await auth.api.getSession({
@@ -12,7 +15,7 @@ export default async function ManageEbookPage() {
     }
 
     const res = await fetch(
-        `http://localhost:5000/writers/${session.user.id}/ebooks`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/writers/${session.user.id}/ebooks`,
         {
             cache: "no-store",
         }

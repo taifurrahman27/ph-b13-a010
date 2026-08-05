@@ -6,7 +6,9 @@ import {
     HiOutlineCurrencyDollar,
 } from "react-icons/hi2";
 
-
+export const metadata = {
+    title: "Admin Home",
+};
 
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL ||

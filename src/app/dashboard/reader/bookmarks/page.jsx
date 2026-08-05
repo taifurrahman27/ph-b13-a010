@@ -7,6 +7,10 @@ import {
     HiOutlineStar,
 } from "react-icons/hi2";
 
+export const metadata = {
+    title: "My Bookmarks",
+};
+
 async function getBookmarks(userId) {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/bookmarks/user/${userId}`,

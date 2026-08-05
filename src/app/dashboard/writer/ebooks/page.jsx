@@ -2,6 +2,10 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import EbookGrid from "@/components/ebooks/EbookGrid";
 
+export const metadata = {
+    title: "My Ebooks",
+};
+
 const WritersEbookPage = async () => {
     const session = await auth.api.getSession({
         headers: await headers(),

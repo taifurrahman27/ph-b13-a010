@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { HiOutlineBookOpen, HiOutlineSparkles } from "react-icons/hi2";
 
+
+export const metadata = {
+    title: "Add Ebook",
+};
+
 const ReadEbookPage = () => {
     return (
         <section className="flex min-h-[80vh] items-center justify-center px-4">

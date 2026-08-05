@@ -2,7 +2,9 @@ import ChangeStatusSelect from "@/components/dashboard/admin/ChangeStatusSelect"
 import DeleteEbookButton from "@/components/dashboard/admin/DeleteEbookButton";
 import CustomImage from "@/components/shared/CustomImage";
 
-
+export const metadata = {
+    title: "Manage Ebooks",
+};
 
 const API =
     process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:5000";

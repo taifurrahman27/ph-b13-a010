@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { BookOpen, Home, SearchX } from "lucide-react";
 
+export const metadata = {
+    title: "Page Not Found",
+};
+
 const NotFoundPage = () => {
     return (
         <section className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-slate-50 px-4 py-16 dark:bg-slate-950">

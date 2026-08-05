@@ -3,6 +3,9 @@ import { getTokenServer } from "@/lib/getTokenServer";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { HiOutlineReceiptRefund } from "react-icons/hi2";
+export const metadata = {
+    title: "Purchase History",
+};
 
 async function getPurchaseHistory(userId) {
 

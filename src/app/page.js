@@ -7,6 +7,10 @@ import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 import { Suspense } from "react";
 
+export const metadata = {
+  title: "Fable-Home ebook sharing platform",
+};
+
 export default function Home() {
   return (
 

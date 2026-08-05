@@ -12,6 +12,7 @@ import {
     HiOutlineEye,
     HiOutlineEyeSlash,
 } from "react-icons/hi2";
+import { authClient } from "@/lib/auth-client";
 
 export default function ManageEbooksTable({ ebooks }) {
 
@@ -27,10 +28,14 @@ export default function ManageEbooksTable({ ebooks }) {
         if (!confirmed) return;
 
         try {
+            const { data: tokenData } = await authClient.token();
             const res = await fetch(
-                `http://localhost:5000/ebooks/${id}`,
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/ebooks/${id}`,
                 {
                     method: "DELETE",
+                    headers: {
+                        "Authorization": `Bearer ${tokenData.token}`
+                    }
                 }
             );
 

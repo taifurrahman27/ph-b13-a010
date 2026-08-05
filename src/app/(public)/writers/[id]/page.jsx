@@ -2,6 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const metadata = {
+    title: "Writer Details",
+};
+
 const WriterDetailsPage = async ({ params }) => {
     const { id } = await params;
 

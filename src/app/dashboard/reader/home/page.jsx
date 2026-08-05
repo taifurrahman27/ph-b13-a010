@@ -12,6 +12,10 @@ import {
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
+export const metadata = {
+    title: "Reader Dashboard",
+};
+
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL ||
     "http://localhost:5000";
@@ -41,7 +45,6 @@ export default async function ReaderDashboardPage() {
         session.user.id
     );
 
-    console.log(analytics, "reader analytics");
 
 
     const stats = [

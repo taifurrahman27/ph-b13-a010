@@ -5,6 +5,10 @@ import {
     HiOutlineUserCircle,
 } from "react-icons/hi2";
 
+export const metadata = {
+    title: "Manage Users",
+};
+
 async function getUsers() {
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/users`,

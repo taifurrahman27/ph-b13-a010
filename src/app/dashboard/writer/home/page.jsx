@@ -10,6 +10,10 @@ import {
     HiOutlineChartBar,
 } from "react-icons/hi2";
 
+export const metadata = {
+    title: "Writer Dashboard",
+};
+
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL ||
     "http://localhost:5000";

@@ -1,3 +1,7 @@
+export const metadata = {
+    title: "Site Settings",
+};
+
 export default function SiteSettingPage() {
     return (
         <section className="space-y-8">

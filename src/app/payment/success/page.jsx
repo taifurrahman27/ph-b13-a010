@@ -6,6 +6,10 @@ import clientPromise from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 import { sendEmail } from "@/lib/sendEmail";
 
+export const metadata = {
+    title: "Payment Successful",
+};
+
 export default async function Success({ searchParams }) {
 
     const { session_id } = await searchParams;

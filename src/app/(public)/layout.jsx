@@ -1,6 +1,9 @@
 import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 
+export const metadata = {
+    title: "Home",
+};
 
 export default function PublicLayout({ children }) {
 

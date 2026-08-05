@@ -1,5 +1,8 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+export const metadata = {
+    title: "Writer Sales",
+};
 
 const API_URL =
     process.env.NEXT_PUBLIC_SERVER_URL ||

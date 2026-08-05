@@ -1,5 +1,9 @@
 import AddEbookForm from "@/components/dashboard/writer/AddEbookForm";
 
+export const metadata = {
+    title: "Add Ebook",
+};
+
 export default function AddEbookPage() {
     return (
         <section className="mx-auto max-w-5xl space-y-8">
